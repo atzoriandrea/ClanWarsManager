@@ -70,8 +70,8 @@ TEMPLATES = [
     },
 ]
 
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'wars'
+LOGOUT_REDIRECT_URL = 'login'
 
 WSGI_APPLICATION = 'ClanWarsManager.wsgi.application'
 
