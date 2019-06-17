@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Il mio Clan{% endblock %}
+
+{% block content %}
+    <h2>Il mio Clan - {{user.clan}}</h2>
+    <ul>
+        {% for member in members %}
+            <li>
+                {% if object.clanMaster == member%}
+                    CM -
+                {% endif %}
+                {{member.username}}
+
+            </li>
+
+        {% endfor %}
+    </ul>
+    {% if object == user.clan %}
+        <form method="POST" action="exit">
+        {% csrf_token %}
+
+        <p>
+            <input type="submit" value="Exit" name="ExitClan"/>
+        </p>
+    </form>
+    {% endif %}
+
+{% endblock %}

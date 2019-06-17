@@ -4,7 +4,9 @@ from .views import (
     SignUpView, 
     WarsView,
     ClanListView,
-    DeleteClanView
+    DeleteClanView,
+    MyClan,
+    ExitClan
 )
 
 urlpatterns = [
@@ -14,5 +16,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('clans/', ClanListView.as_view(), name='clan_list'),
+    path('clans/<int:pk>', MyClan.as_view(), name='clan'),
     path('clans/<int:pk>/delete', DeleteClanView.as_view(), name='clan_delete'),
+    path('clans/exit', ExitClan.as_view(), name='exit'),
 ]
