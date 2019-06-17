@@ -22,7 +22,7 @@ class War(models.Model):
     date = models.DateField()
 
     def __str__(self):
-        return self.clan.name
+        return self.clan.name + ' [' + str(self.date) + ']'
 
 class Battle(models.Model):
     ally = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="+")

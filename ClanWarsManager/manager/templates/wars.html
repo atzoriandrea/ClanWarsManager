@@ -5,16 +5,19 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-  Hi {{ user.username }}!
-  <p><a href="{% url 'logout' %}">logout</a></p>
-   <ul>
-        {% for war in object_list %}
-            <li>{{war}}</li>
-        {% endfor %}
-   </ul>
+    Hi {{ user.username }}!
+    <p><a href="{% url 'logout' %}">logout</a></p>
+    <h3>Wars</h3>
+    <ul>
+          {% for war in object_list %}
+              <li>{{war}}</li>
+          {% endfor %}
+    </ul>
 {% else %}
-  <p>You are not logged in</p>
-  <a href="{% url 'login' %}">login</a> |
-  <a href="{% url 'signup' %}">signup</a>
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">login</a> |
+    <a href="{% url 'signup' %}">signup</a>
 {% endif %}
+
+<a href="{% url 'clan_list' %}">Clans</a>
 {% endblock %}
