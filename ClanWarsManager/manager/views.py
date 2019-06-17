@@ -17,4 +17,4 @@ class WarsView(ListView):
         return War.objects.all() #filter(clan=self.request.user.clan)
     paginate_by = 100  # if pagination is desired
 
-    template_name = 'home.html'
+    template_name = 'wars.html'
