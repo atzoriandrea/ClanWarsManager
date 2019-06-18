@@ -3,7 +3,7 @@
 {% block title %}Il mio Clan{% endblock %}
 
 {% block content %}
-    <h2>Il mio Clan - {{user.clan}}</h2>
+    <h2>Il mio Clan - {{object.name}}</h2>
 
     {% if removedUser is not None %}
         <p>Hai rimosso ----> {{ removedUser.username }}</p>
@@ -16,15 +16,6 @@
                     CM -
                 {% endif %}
                 {{member.username}}
-                 {% if object.clanMaster == user%}
-                    <form method="POST" action="remove/{{member.username|urlencode}}">
-                        {% csrf_token %}
-                        <p>
-                            <input type="submit" value="Remove" name="RemoveUser"/>
-                        </p>
-                     </form>
-                {% endif %}
-
             </li>
         {% endfor %}
     </ul>

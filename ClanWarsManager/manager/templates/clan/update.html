@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <p>
+            <input type="submit" value="Save"/>
+            <a href="../">Cancel</a>
+        </p>
+    </form>
+
+    {% if removedUser is not None %}
+        <p>Hai rimosso ----> {{ removedUser.username }}</p>
+    {%endif%}
+    <ul>
+        {% for member in members %}
+            <li>
+                {% if object.clanMaster == member%}
+                    CM -
+                {% endif %}
+                {{member.username}}
+                {% if object.clanMaster != user %}
+                    <form method="POST" action="remove/{{member.username|urlencode}}">
+                        {% csrf_token %}
+                        <p>
+                            <input type="submit" value="Remove" name="RemoveUser"/>
+                        </p>
+                    </form>
+                {% endif %}
+
+            </li>
+        {% endfor %}
+    </ul>
+
+    <form method="POST" action="delete">
+        {% csrf_token %}
+        <p>
+            <input type="submit" value="Delete Clan"/>
+        </p>
+    </form>
+    
+
+{% endblock %}

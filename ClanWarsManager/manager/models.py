@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.shortcuts import reverse
 
 from django.core.validators import MaxValueValidator, MinValueValidator
 
@@ -12,7 +13,10 @@ class User(AbstractUser):
 class Clan(models.Model):
     name = models.CharField(max_length=30)
     clanMaster = models.ForeignKey(User, on_delete=models.CASCADE, related_name="+")
-    maxPlayers = models.PositiveSmallIntegerField(default=20, validators=[MaxValueValidator(50)])
+    maxPlayers = models.PositiveSmallIntegerField(default=20, validators=[MinValueValidator(1), MaxValueValidator(50)])
+
+    def get_absolute_url(self):
+        return reverse("clan", kwargs={'pk': self.pk})
 
     def __str__(self):
         return self.name

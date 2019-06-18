@@ -1,17 +1,20 @@
 from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.urls import reverse_lazy
 from .models import War, Clan, User
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import PermissionDenied
 from django.utils.http import urlencode
 from django.views.generic import (
     View,
     CreateView,
     ListView,
     DeleteView,
-    DetailView, RedirectView)
+    DetailView, 
+    RedirectView,
+    UpdateView,
+    TemplateView
+    )
 
-
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, ClanForm
 
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm
@@ -32,11 +35,16 @@ class ClanListView(ListView):
     queryset = Clan.objects.all()
     template_name = "clan/list.html"
 
+
 class DeleteClanView(DeleteView):
     template_name = "clan/delete.html"
+    
     def get_object(self):
-        pk = self.kwargs.get("pk")
-        return get_object_or_404(Clan, pk=pk)
+        clan = get_object_or_404(Clan, pk=self.request.user.clan.pk)
+        if self.request.user.is_authenticated and self.request.user == clan.clanMaster:
+            return clan
+        else:
+            raise PermissionDenied()
 
     def get_success_url(self):
         return reverse("clan_list")
@@ -46,6 +54,50 @@ class MyClan(DetailView):
     def get_object(self):
         pk = self.kwargs.get("pk")
         return get_object_or_404(Clan, pk=pk)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["members"] = User.objects.filter(clan=self.get_object())
+        return context
+
+    def dispatch(self, request, pk, *args, **kwargs):
+        if request.user.is_authenticated and request.user == get_object_or_404(Clan, pk=pk).clanMaster:
+            view=UpdateClanView.as_view()
+            return view(request, *args, **kwargs)
+        return super().dispatch(request, pk, *args, **kwargs)
+
+class ExitClan(RedirectView):
+    def post(self, request, *args, **kwargs):
+        request.user.clan = None
+        request.user.save()
+        return super().post(self, request, *args,**kwargs)
+        
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse("wars")
+
+class RemoveUserFromClan(RedirectView):
+    def post(self, request, *args, **kwargs):
+        member = get_object_or_404(User, username=self.kwargs.get("username"))
+        member.clan = None
+        member.save()
+        return super().post(self, request, *args,**kwargs)
+
+    def get_redirect_url(self, *args, **kwargs):
+        query = urlencode({'removed': self.kwargs.get("username")})
+        return self.request.user.clan.get_absolute_url() + "?" + query
+
+class UpdateClanView(UpdateView):
+    template_name = "clan/update.html"
+    form_class = ClanForm
+
+    def get_object(self):
+        clan = self.request.user.clan
+        if self.request.user.is_authenticated and self.request.user == clan.clanMaster:
+            return clan
+        else:
+            raise PermissionDenied()
+        return clan
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['removedUser'] = None
@@ -57,23 +109,7 @@ class MyClan(DetailView):
         context["members"] = User.objects.filter(clan=self.get_object())
         return context
 
-class ExitClan(View):
-    template_name = "wars.html"
-    def post(self, request, *args, **kwargs):
-        request.user.clan = None
-        request.user.save()
-        return render(request, self.template_name, {})
-
-class RemoveUserFromClan(RedirectView):
-    def post(self, request, *args, **kwargs):
-        member = get_object_or_404(User, username=self.kwargs.get("username"))
-        member.clan = None
-        member.save()
-        return super().post(self, request, *args,**kwargs)
-    def get_redirect_url(self, *args, **kwargs):
-        query = urlencode({'removed': self.kwargs.get("username")})
-        return reverse("clan", kwargs={'pk': self.request.user.clan.pk}) + "?" + query
-
+    
 
 
 

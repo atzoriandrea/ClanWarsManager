@@ -7,7 +7,8 @@ from .views import (
     DeleteClanView,
     MyClan,
     ExitClan,
-    RemoveUserFromClan
+    RemoveUserFromClan,
+    UpdateClanView
 )
 
 urlpatterns = [
@@ -18,7 +19,8 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('clans/', ClanListView.as_view(), name='clan_list'),
     path('clans/<int:pk>', MyClan.as_view(), name='clan'),
-    path('clans/<int:pk>/delete', DeleteClanView.as_view(), name='clan_delete'),
+    path('clans/delete', DeleteClanView.as_view(), name='clan_delete'),
+    path('clans/update', UpdateClanView.as_view(), name='clan_update'),
     path('clans/exit', ExitClan.as_view(), name='exit'),
     path('clans/remove/<str:username>', RemoveUserFromClan.as_view(), name='RemoveUser'),
 ]
