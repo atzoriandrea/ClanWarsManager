@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
+    {% if removedUser is not None %}
+        <p>Hai rimosso ----> {{ removedUser.username }}</p>
+    {%endif%}
+
     <form method="POST">
         {% csrf_token %}
         {{form.as_p}}
@@ -10,9 +14,7 @@
         </p>
     </form>
 
-    {% if removedUser is not None %}
-        <p>Hai rimosso ----> {{ removedUser.username }}</p>
-    {%endif%}
+    <h4>Members:</h4>
     <ul>
         {% for member in members %}
             <li>
@@ -20,15 +22,14 @@
                     CM -
                 {% endif %}
                 {{member.username}}
-                {% if object.clanMaster != user %}
+                {% if object.clanMaster != member %}
                     <form method="POST" action="remove/{{member.username|urlencode}}">
                         {% csrf_token %}
                         <p>
-                            <input type="submit" value="Remove" name="RemoveUser"/>
+                            <input type="submit" value="Remove"/>
                         </p>
                     </form>
                 {% endif %}
-
             </li>
         {% endfor %}
     </ul>

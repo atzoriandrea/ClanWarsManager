@@ -15,7 +15,6 @@ class CustomUserAdmin(UserAdmin):
     )
 
 admin.site.register(User, CustomUserAdmin)
-# admin.site.register(User)
 admin.site.unregister(Group)
 admin.site.register(Clan)
 admin.site.register(War)

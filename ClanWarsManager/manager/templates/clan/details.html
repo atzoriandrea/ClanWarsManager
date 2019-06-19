@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
 
-{% block title %}Il mio Clan{% endblock %}
+{% block title %}{{object.name}}{% endblock %}
 
 {% block content %}
-    <h2>Il mio Clan - {{object.name}}</h2>
+    <h2>Clan: {{object.name}}</h2>
 
     {% if removedUser is not None %}
         <p>Hai rimosso ----> {{ removedUser.username }}</p>
     {%endif%}
 
+    <h4>Members:</h4>
     <ul>
         {% for member in members %}
             <li>
@@ -19,12 +20,12 @@
             </li>
         {% endfor %}
     </ul>
+
     {% if object == user.clan %}
         <form method="POST" action="exit">
             {% csrf_token %}
-
             <p>
-                <input type="submit" value="Exit" name="ExitClan"/>
+                <input type="submit" value="Leave"/>
             </p>
         </form>
     {% endif %}

@@ -7,7 +7,8 @@
     <ul>
         {% for clan in object_list %}
             <li>
-                {{clan.id}} - {{clan}}
+                {{clan.id}} - 
+                <a href="{{clan.get_absolute_url}}">{{clan.name}}</a>
             </li>
         {% endfor %}
     </ul>

@@ -7,6 +7,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
 class User(AbstractUser):
     clan = models.ForeignKey("Clan", on_delete=models.SET_NULL, null=True, blank=True, default=None)
+    
     def __str__(self):
         return self.username
 
@@ -16,7 +17,7 @@ class Clan(models.Model):
     maxPlayers = models.PositiveSmallIntegerField(default=20, validators=[MinValueValidator(1), MaxValueValidator(50)])
 
     def get_absolute_url(self):
-        return reverse("clan", kwargs={'pk': self.pk})
+        return reverse("clan_details", kwargs={'pk': self.pk})
 
     def __str__(self):
         return self.name
