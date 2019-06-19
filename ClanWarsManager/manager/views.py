@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
 from .forms import CustomUserCreationForm, ClanForm
-from .models import War, Clan, User, Battle
+from .models import War, Clan, User, Battle, EnemyUserSnapshot
 from django.core.exceptions import PermissionDenied
 from django.utils.http import urlencode
 from django.views.generic import (
@@ -27,7 +27,7 @@ class WarListView(ListView):
     paginate_by = 100  # if pagination is desired
     def get_queryset(self):
         if self.request.user.is_authenticated and self.request.user.clan is not None:
-            return War.objects.filter(clan=self.request.user.clan)
+            return War.objects.filter(allyClan=self.request.user.clan)
         else:
             return []
 
@@ -144,7 +144,7 @@ class CreateWar(RedirectView):
                 pk = self.kwargs.get("pk")
                 enemyClan = get_object_or_404(Clan, pk=pk)
                 if (myClan!=enemyClan):
-                    newWar = War.objects.create(clan=request.user.clan, date=timezone.now())
+                    newWar = War.objects.create(allyClan=myClan, enemyClanName=enemyClan.name, date=timezone.now())
                     myMembersCount = User.objects.filter(clan=myClan).count()
                     enemyMembers = User.objects.filter(clan=enemyClan)
                     battleCount = min(myMembersCount, len(enemyMembers))
@@ -152,13 +152,10 @@ class CreateWar(RedirectView):
                     #TODO: manca il controllo sul successo dell'operazione - transaction
                     for i in range(battleCount):
                         enemy = enemyMembers[i]
-                        newBattle = Battle.objects.create(ally=None,enemy=enemy,allyDestruction=0, enemyDestruction=0,allyVictory=False,war=newWar)
-                        newBattle.save()
+                        newEnemySnapshot = EnemyUserSnapshot.objects.create(username=enemy.username, war=newWar)
+                        newEnemySnapshot.save()
                     return super().post(self, request, *args, **kwargs)
         raise PermissionDenied()
-
-
-
 
     def get_redirect_url(self, *args, **kwargs):
         #query = urlencode({'created': True})
