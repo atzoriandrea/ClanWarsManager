@@ -4,11 +4,20 @@
 
 {% block content %}
     <h2>Clan: {{object.name}}</h2>
-
+    {% if canjoin %}
+        <form method="POST" action="join/{{object.id|urlencode}}">
+                {% csrf_token %}
+                <p>
+                    <input type="submit" value="Enter"/>
+                </p>
+        </form>
+    {%endif%}
     {% if removedUser is not None %}
         <p>Hai rimosso ----> {{ removedUser.username }}</p>
     {%endif%}
-
+    {% if request.GET.joined %}
+        <p>Sei entrato a far parte del clan</p>
+    {%endif%}
     <h4>Members:</h4>
     <ul>
         {% for member in members %}

@@ -66,7 +66,9 @@ class ClanDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["members"] = User.objects.filter(clan=self.get_object())
+        clan = self.get_object()
+        context['canjoin'] = self.request.user.clan is None and User.objects.filter(clan=clan).count() < clan.maxPlayers
+        context["members"] = User.objects.filter(clan=clan)
         return context
 
     def dispatch(self, request, pk, *args, **kwargs):
@@ -118,8 +120,20 @@ class ClanUpdateView(UpdateView):
         context["members"] = User.objects.filter(clan=self.get_object())
         return context
 
-    
 
+class ClanJoinView(RedirectView):
+
+    def post(self, request, *args, **kwargs):
+        pk = self.kwargs.get("pk")
+        clan = get_object_or_404(Clan, pk=pk)
+        user = self.request.user
+        user.clan = clan
+        user.save()
+        return super().post(self, request, *args, **kwargs)
+
+    def get_redirect_url(self, *args, **kwargs):
+        query = urlencode({'joined': True})
+        return self.request.user.clan.get_absolute_url() + "?" + query
 
 
 
