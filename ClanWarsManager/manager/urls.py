@@ -11,7 +11,8 @@ from .views import (
     ClanUpdateView,
     ClanJoinView,
     CreateWar,
-    WarDetailView
+    WarDetailView,
+    WarDeleteView,
 )
 
 urlpatterns = [
@@ -19,6 +20,7 @@ urlpatterns = [
     path('wars/', WarListView.as_view(), name='wars'),
     path('wars/<int:pk>', WarDetailView.as_view(), name='war_details'),
     path('clans/fight/<int:pk>', CreateWar.as_view(), name='clan_fight'),
+    path('wars/delete/<int:pk>', WarDeleteView.as_view(), name='war_delete'),
     path('', WarListView.as_view(), name='home'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),

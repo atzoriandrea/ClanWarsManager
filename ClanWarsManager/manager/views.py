@@ -157,6 +157,19 @@ class CreateWar(View):
                     return redirect(newWar.get_absolute_url())
         raise PermissionDenied()
 
+class WarDeleteView(DeleteView):
+    template_name = "war/delete.html"
+
+    def get_object(self):
+        war = get_object_or_404(War, pk=self.kwargs.get("pk"))
+        if self.request.user.is_authenticated and self.request.user == war.allyClan.clanMaster:
+            return war
+        else:
+            raise PermissionDenied()
+
+    def get_success_url(self):
+        return reverse("wars")
+
 
 class WarDetailView(DetailView):
     template_name = "war/details.html"
