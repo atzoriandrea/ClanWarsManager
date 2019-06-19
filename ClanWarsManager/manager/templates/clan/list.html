@@ -3,7 +3,11 @@
 {% block title %}Clans{% endblock %}
 
 {% block content %}
+
     <h2>Clans</h2>
+    <form>
+        <input name="q" type="search" placeholder="Search" value="{{ query }}">
+    </form>
     <ul>
         {% for clan in object_list %}
             <li>

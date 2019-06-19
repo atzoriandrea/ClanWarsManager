@@ -31,9 +31,19 @@ class WarListView(ListView):
             return []
 
 class ClanListView(ListView):
-    queryset = Clan.objects.all()
     template_name = "clan/list.html"
 
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query is not None:
+            return Clan.objects.filter(name__icontains=query)
+        return Clan.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        query = self.request.GET.get('q')
+        context["query"] = query if query is not None else " "
+        return context
 
 class ClanDeleteView(DeleteView):
     template_name = "clan/delete.html"
