@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.urls import reverse_lazy
+from django.utils import timezone
 from .forms import CustomUserCreationForm, ClanForm
-from .models import War, Clan, User
+from .models import War, Clan, User, Battle
 from django.core.exceptions import PermissionDenied
 from django.utils.http import urlencode
 from django.views.generic import (
@@ -12,7 +13,7 @@ from django.views.generic import (
     DetailView, 
     RedirectView,
     UpdateView,
-    TemplateView
+    TemplateView,
     )
 
 
@@ -122,7 +123,6 @@ class ClanUpdateView(UpdateView):
 
 
 class ClanJoinView(RedirectView):
-
     def post(self, request, *args, **kwargs):
         pk = self.kwargs.get("pk")
         clan = get_object_or_404(Clan, pk=pk)
@@ -134,6 +134,35 @@ class ClanJoinView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         query = urlencode({'joined': True})
         return self.request.user.clan.get_absolute_url() + "?" + query
+
+class CreateWar(RedirectView):
+
+    def post(self, request, *args, **kwargs):
+        myClan =self.request.user.clan
+        if self.request.user.is_authenticated:
+            if myClan is not None and myClan.clanMaster==self.request.user:
+                pk = self.kwargs.get("pk")
+                enemyClan = get_object_or_404(Clan, pk=pk)
+                if (myClan!=enemyClan):
+                    newWar = War.objects.create(clan=request.user.clan, date=timezone.now())
+                    myMembersCount = User.objects.filter(clan=myClan).count()
+                    enemyMembers = User.objects.filter(clan=enemyClan)
+                    battleCount = min(myMembersCount, len(enemyMembers))
+                    newWar.save()
+                    #TODO: manca il controllo sul successo dell'operazione - transaction
+                    for i in range(battleCount):
+                        enemy = enemyMembers[i]
+                        newBattle = Battle.objects.create(ally=None,enemy=enemy,allyDestruction=0, enemyDestruction=0,allyVictory=False,war=newWar)
+                        newBattle.save()
+                    return super().post(self, request, *args, **kwargs)
+        raise PermissionDenied()
+
+
+
+
+    def get_redirect_url(self, *args, **kwargs):
+        #query = urlencode({'created': True})
+        return reverse("wars")
 
 
 

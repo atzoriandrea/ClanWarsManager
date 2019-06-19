@@ -26,11 +26,14 @@ class War(models.Model):
     clan = models.ForeignKey(Clan, on_delete=models.CASCADE, related_name="+")
     date = models.DateField()
 
+    def get_absolute_url(self):
+        return reverse("war_details", kwargs={'pk': self.pk})
+
     def __str__(self):
         return self.clan.name + ' [' + str(self.date) + ']'
 
 class Battle(models.Model):
-    ally = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="+")
+    ally = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
     enemy = models.ForeignKey(User, on_delete=models.CASCADE, related_name="+")
     allyDestruction = models.SmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
     enemyDestruction = models.SmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
@@ -38,6 +41,9 @@ class Battle(models.Model):
     war = models.ForeignKey(War, on_delete=models.CASCADE, related_name="+")
 
     def __str__(self):
-        return self.ally.username + ' VS ' + self.enemy.username
+        if self.ally is None:
+            return 'None VS ' + self.enemy.username
+        else:
+            return self.ally.username + ' VS ' + self.enemy.username
 
 

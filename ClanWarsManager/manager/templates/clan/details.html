@@ -29,7 +29,14 @@
             </li>
         {% endfor %}
     </ul>
-
+    {% if user.is_authenticated and user.clan is not None and user.clan.clanMaster == user  %}
+        <form method="POST" action="fight/{{object.id|urlencode}}">
+                {% csrf_token %}
+                <p>
+                    <input type="submit" value="Fight"/>
+                </p>
+        </form>
+    {%endif%}
     {% if object == user.clan %}
         <form method="POST" action="exit">
             {% csrf_token %}
