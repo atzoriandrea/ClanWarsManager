@@ -135,7 +135,7 @@ class ClanJoinView(RedirectView):
         query = urlencode({'joined': True})
         return self.request.user.clan.get_absolute_url() + "?" + query
 
-class CreateWar(RedirectView):
+class CreateWar(View):
 
     def post(self, request, *args, **kwargs):
         myClan =self.request.user.clan
@@ -154,14 +154,23 @@ class CreateWar(RedirectView):
                         enemy = enemyMembers[i]
                         newEnemySnapshot = EnemyUserSnapshot.objects.create(username=enemy.username, war=newWar)
                         newEnemySnapshot.save()
-                    return super().post(self, request, *args, **kwargs)
+                    return redirect(newWar.get_absolute_url())
         raise PermissionDenied()
 
-    def get_redirect_url(self, *args, **kwargs):
-        #query = urlencode({'created': True})
-        return reverse("wars")
 
+class WarDetailView(DetailView):
+    template_name = "war/details.html"
+    def get_object(self):
+        pk = self.kwargs.get("pk")
+        return get_object_or_404(War, pk=pk)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["enemies"] = EnemyUserSnapshot.objects.filter(war=self.get_object())
+        context["allies"] = User.objects.filter(clan=self.request.user.clan)
+        return context
 
-
-    
+    def dispatch(self, request, pk, *args, **kwargs):
+        if not (request.user.is_authenticated and request.user.clan == get_object_or_404(War, pk=pk).allyClan):
+            raise PermissionDenied()
+        return super().dispatch(request, pk, *args, **kwargs)
