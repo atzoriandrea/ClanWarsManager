@@ -19,9 +19,9 @@
     </ul>
 {% else %}
     <p>You are not logged in</p>
-    <a href="{% url 'login' %}">login</a> |
-    <a href="{% url 'signup' %}">signup</a>
+    <a href="{% url 'user_login' %}">login</a> |
+    <a href="{% url 'user_signup' %}">signup</a>
 {% endif %}
 
-<a href="{% url 'clan_list' %}">Clans</a>
+<a href="{% url 'clans_list' %}">Clans</a>
 {% endblock %}

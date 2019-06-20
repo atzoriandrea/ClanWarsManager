@@ -3,4 +3,5 @@ __pycache__/
 .idea/
 venv/
 65330_65389_65359_65298.pdf
-
+ClanWarsManager/manager/static/sass/
+ClanWarsManager/manager/static/css/materialize.min.css.map

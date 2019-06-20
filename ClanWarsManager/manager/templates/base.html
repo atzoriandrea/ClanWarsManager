@@ -1,14 +1,44 @@
-<!-- templates/base.html -->
-<!DOCTYPE html>
+{% load static %}
+
+<!doctype html>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  <title>{% block title %}{% endblock %}</title>
-</head>
-<body>
-  <main>
-    {% block content %}
+  <!-- Import Google Icon Font -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <!-- Import stylesheets -->
+  <link type="text/css" rel="stylesheet" href="{% static "css/materialize.min.css" %}" media="screen,projection" />
+  <link type="text/css" rel="stylesheet" href="{% static "css/style.css" %}" media="screen,projection" />
+
+  <!-- Meta -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Title -->
+  <title>
+    {% block title %}
+    ClanWars manager
     {% endblock %}
-  </main>
+  </title>
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  {% include "navbar.html" %}
+
+  <!-- Content -->
+  <div class="container">
+    {% block content %}
+    Empty content block
+    {% endblock%}
+  </div>
+
+  <!-- Import scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="{% static "js/materialize.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
 </body>
+
 </html>

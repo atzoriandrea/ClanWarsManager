@@ -1,0 +1,137 @@
+{% load static %}
+
+<nav>
+    <div class="nav-wrapper">
+        <a href="/" class="brand-logo">
+            <img class="logo-img" src="{% static "images/logo.png" %}">
+        </a>
+        <a href="#" data-target="mobile-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+            {% if request.user.is_authenticated %}
+            <li class="waves-effect">
+                <a href="/wars">
+                    <i class="material-icons left">gamepad</i>
+                    Le mie guerre
+                </a>
+            </li>
+            <li class="waves-effect">
+                {% if request.user.clan is not None %}
+                <a href="/clans/{{user.clan.id|urlencode}}">
+                    <i class="material-icons left">people</i>
+                    Il mio clan
+                </a>
+                {% else %}
+                <a href="#">
+                    <i class="material-icons left">add</i>
+                    Crea clan
+                </a>
+                {% endif %}
+            </li>
+            {% endif %}
+            <li class="waves-effect">
+                <a href="/clans">
+                    <i class="material-icons left">search</i>
+                    Cerca clan
+                </a>
+            </li>
+            {% if request.user.is_authenticated %}
+            <li>
+                <a class="dropdown-trigger waves-effect" href="#!" data-target="logout-dropdown">
+                    <i class="material-icons left">person</i>
+                    {{user.username}}
+                    <i class="material-icons right">arrow_drop_down</i>
+                </a>
+            </li>
+            {% else %}
+            <li class="waves-effect">
+                <a href="/login">
+                    <i class="material-icons left">person</i>
+                    Accedi
+                </a>
+            </li>
+            <li class="waves-effect">
+                <a href="/signup">
+                    <i class="material-icons left">person_add</i>
+                    Registrati
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+<ul id="logout-dropdown" class="dropdown-content">
+    <li class="waves-effect">
+        <a href="/logout">
+            <i class="material-icons left">exit_to_app</i>
+            Esci
+        </a>
+    </li>
+</ul>
+
+<ul class="sidenav" id="mobile-sidenav">
+    <li>
+        <div class="user-view">
+            {% if user.is_authenticated %}
+            <h6>
+                Bentornato,
+            </h6>
+            <h5>
+                {{user.username}}
+            </h5>
+            {% else %}
+            <h6>
+                Accedi per gestire il tuo clan
+            </h6>
+            {% endif %}
+        </div>
+    </li>
+    {% if user.is_authenticated %}
+    <li>
+        <a href="/wars" class="waves-effect">
+            <i class="material-icons left">gamepad</i>
+            Le mie guerre
+        </a>
+    </li>
+    <li>
+        {% if request.user.clan is not None %}
+        <a href="/clans/{{user.clan.id|urlencode}}" class="waves-effect">
+            <i class="material-icons left">people</i>
+            Il mio clan
+        </a>
+        {% else %}
+        <a href="#" class="waves-effect">
+            <i class="material-icons left">add</i>
+            Crea clan
+        </a>
+        {% endif %}
+    </li>
+    {% endif %}
+    <li>
+        <a href="/clans" class="waves-effect">
+            <i class="material-icons left">search</i>
+            Cerca clan
+        </a>
+    </li>
+    {% if user.is_authenticated %}
+    <li>
+        <a href="/logout" class="waves-effect">
+            <i class="material-icons left">exit_to_app</i>
+            Esci
+        </a>
+    </li>
+    {% else %}
+    <li>
+        <a href="/login" class="waves-effect">
+            <i class="material-icons left">person</i>
+            Accedi
+        </a>
+    </li>
+    <li>
+        <a href="/signup" class="waves-effect">
+            <i class="material-icons left">person_add</i>
+            Registrati
+        </a>
+    </li>
+    {% endif %}
+</ul>

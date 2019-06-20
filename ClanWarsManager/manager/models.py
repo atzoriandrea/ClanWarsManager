@@ -17,7 +17,7 @@ class Clan(models.Model):
     maxPlayers = models.PositiveSmallIntegerField(default=20, validators=[MinValueValidator(1), MaxValueValidator(50)])
 
     def get_absolute_url(self):
-        return reverse("clan_details", kwargs={'pk': self.pk})
+        return reverse("clans_details", kwargs={'pk': self.pk})
 
     def __str__(self):
         return self.name
@@ -28,7 +28,7 @@ class War(models.Model):
     date = models.DateField()
 
     def get_absolute_url(self):
-        return reverse("war_details", kwargs={'pk': self.pk})
+        return reverse("wars_details", kwargs={'pk': self.pk})
 
     def __str__(self):
         return f"{self.allyClan.name} vs {self.enemyClanName} @{self.date}"
