@@ -48,11 +48,6 @@ class ClanListView(ListView):
             return Clan.objects.filter(name__icontains=query)
         return Clan.objects.all()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        query = self.request.GET.get('q')
-        context["query"] = query if query is not None else " "
-        return context
 
 
 class ClanDeleteView(DeleteView):
@@ -81,7 +76,7 @@ class ClanDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         clan = self.get_object()
-        context['canjoin'] = self.request.user.clan is None and User.objects.filter(clan=clan).count() < clan.maxPlayers
+        context['canjoin'] = self.request.user.is_authenticated and (self.request.user.clan is None and User.objects.filter(clan=clan).count() < clan.maxPlayers)
         context["members"] = User.objects.filter(clan=clan)
         return context
 
@@ -105,11 +100,11 @@ class ClanLeaveView(RedirectView):
 
 class ClanRemoveView(RedirectView):
     
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, *args, **kwargs):
         member = get_object_or_404(User, username=self.kwargs.get("username"))
         member.clan = None
         member.save()
-        return super().dispatch(self, request, *args, **kwargs)
+        return super().dispatch(self.request, *args, **kwargs)
 
     def get_redirect_url(self, *args, **kwargs):
         query = urlencode({'removed': self.kwargs.get("username")})
@@ -143,20 +138,20 @@ class ClanUpdateView(UpdateView):
 
 class ClanJoinView(RedirectView):
 
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, *args, **kwargs):
         pk = self.kwargs.get("pk")
         clan = get_object_or_404(Clan, pk=pk)
         user = self.request.user
         user.clan = clan
         user.save()
-        return super().dispatch(self, request, *args, **kwargs)
+        return super().dispatch(self.request, *args, **kwargs)
 
     def get_redirect_url(self, *args, **kwargs):
         query = urlencode({'joined': True})
         return self.request.user.clan.get_absolute_url() + "?" + query
 
 
-class CreateWar(View):
+class WarCreateView(View):
 
     def dispatch(self, request, *args, **kwargs):
         myClan = self.request.user.clan
@@ -206,7 +201,7 @@ class WarDetailView(DetailView):
         context["allies"] = User.objects.filter(clan=self.request.user.clan)
         return context
 
-    def dispatch(self, request, pk, *args, **kwargs):
-        if not (request.user.is_authenticated and request.user.clan == get_object_or_404(War, pk=pk).allyClan):
+    def dispatch(self, *args, **kwargs):
+        if not (self.request.user.is_authenticated and self.request.user.clan == self.get_object().allyClan):
             raise PermissionDenied()
-        return super().dispatch(request, pk, *args, **kwargs)
+        return super().dispatch(self.request, *args, **kwargs)

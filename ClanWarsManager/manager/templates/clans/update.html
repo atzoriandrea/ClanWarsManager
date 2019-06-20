@@ -10,7 +10,6 @@
         {{form.as_p}}
         <p>
             <input type="submit" value="Save"/>
-            <a href="../">Cancel</a>
         </p>
     </form>
 
@@ -23,7 +22,7 @@
                 {% endif %}
                 {{member.username}}
                 {% if object.clanMaster != member %}
-                    <form method="POST" action="remove/{{member.username|urlencode}}">
+                    <form method="POST" action="{% url 'clan_kick' member.username%}">
                         {% csrf_token %}
                         <p>
                             <input type="submit" value="Remove"/>
@@ -34,7 +33,7 @@
         {% endfor %}
     </ul>
 
-    <form method="POST" action="delete">
+    <form method="POST" action="{% url 'clan_delete'%}">
         {% csrf_token %}
         <p>
             <input type="submit" value="Delete Clan"/>

@@ -6,7 +6,7 @@
 
     <h2>Clans</h2>
     <form>
-        <input name="q" type="search" placeholder="Search" value="{{ query }}">
+        <input name="q" type="search" placeholder="Search" value="{{ resuest.GET.q }}">
     </form>
     <ul>
         {% for clan in object_list %}

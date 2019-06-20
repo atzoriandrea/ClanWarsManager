@@ -5,7 +5,7 @@
 {% block content %}
     <h2>Clan: {{object.name}}</h2>
     {% if canjoin %}
-        <form method="POST" action="join/{{object.id|urlencode}}">
+        <form method="POST" action="{% url 'clan_join' object.id%}">
                 {% csrf_token %}
                 <p>
                     <input type="submit" value="Enter"/>
@@ -30,7 +30,7 @@
         {% endfor %}
     </ul>
     {% if user.is_authenticated and user.clan is not None and user.clan.clanMaster == user  %}
-        <form method="POST" action="fight/{{object.id|urlencode}}">
+        <form method="POST" action="{% url 'clans_fight' object.id%}">
                 {% csrf_token %}
                 <p>
                     <input type="submit" value="Fight"/>
@@ -38,7 +38,7 @@
         </form>
     {%endif%}
     {% if object == user.clan %}
-        <form method="POST" action="exit">
+        <form method="POST" action="{% url 'clan_leave' %}">
             {% csrf_token %}
             <p>
                 <input type="submit" value="Leave"/>
