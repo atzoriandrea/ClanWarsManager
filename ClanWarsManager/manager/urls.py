@@ -23,26 +23,26 @@ urlpatterns = [
     path(r'', RedirectView.as_view(url=reverse_lazy("wars_list")), name='home'),
     # User
     path(r'', include([
-        path(r'/signup/', SignupView.as_view(), name='user_signup'),
-        path(r'/login/', auth_views.LoginView.as_view(), name='user_login'),
-        path(r'/logout/', auth_views.LogoutView.as_view(), name='user_logout'),
+        path(r'signup/', SignupView.as_view(), name='user_signup'),
+        path(r'login/', auth_views.LoginView.as_view(), name='user_login'),
+        path(r'logout/', auth_views.LogoutView.as_view(), name='user_logout'),
     ])),
     # Wars
-    path(r'wars', include([
+    path(r'wars/', include([
         path(r'', WarListView.as_view(), name='wars_list'),
-        path(r'/<int:pk>', WarDetailView.as_view(), name='wars_details'),
-        path(r'/<int:pk>/delete', WarDeleteView.as_view(), name='wars_delete'),
+        path(r'<int:pk>', WarDetailView.as_view(), name='wars_details'),
+        path(r'<int:pk>/delete', WarDeleteView.as_view(), name='wars_delete'),
     ])),
     # Clans
-    path(r'clans', include([
+    path(r'clans/', include([
         path(r'', ClanListView.as_view(), name='clans_list'),
-        path(r'/<int:pk>', ClanDetailsDispatcherView.as_view(), name='clans_details'),
-        path(r'/<int:pk>/fight/', WarCreateView.as_view(), name='clans_fight'),
-        path(r'/<int:pk>/join/', ClanJoinView.as_view(), name='clans_join'),
-        path(r'/delete', ClanDeleteView.as_view(), name='clans_delete'),
-        path(r'/update', ClanUpdateView.as_view(), name='clans_update'),
-        path(r'/leave', ClanLeaveView.as_view(), name='clans_leave'),
-        path(r'/create', ClanCreateView.as_view(), name='clans_create'),
-        path(r'/kick/<str:username>', ClanKickView.as_view(), name='clans_kick'),
+        path(r'<int:pk>', ClanDetailsDispatcherView.as_view(), name='clans_details'),
+        path(r'<int:pk>/fight/', WarCreateView.as_view(), name='clans_fight'),
+        path(r'<int:pk>/join/', ClanJoinView.as_view(), name='clans_join'),
+        path(r'delete', ClanDeleteView.as_view(), name='clans_delete'),
+        path(r'update', ClanUpdateView.as_view(), name='clans_update'),
+        path(r'leave', ClanLeaveView.as_view(), name='clans_leave'),
+        path(r'create', ClanCreateView.as_view(), name='clans_create'),
+        path(r'kick/<str:username>', ClanKickView.as_view(), name='clans_kick'),
     ])),
 ]

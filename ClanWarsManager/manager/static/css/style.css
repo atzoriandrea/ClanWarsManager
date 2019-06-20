@@ -1,6 +1,37 @@
+.sidenav-trigger {
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
 .logo-img {
-    max-height: 64px!important;
-    padding: 15px 0!important;
-    margin-left: 0.5em;
-    margin-right: 0.5em;
+  max-height: 64px !important;
+  padding: 15px 0 !important;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+footer .logotype {
+  max-height: 1.5em !important;
+}
+
+footer .authors {
+  font-size: 0.8em;
+}
+
+footer .description {
+  font-size: 0.9em;
+}
+
+footer.page-footer {
+    margin-top: 6em;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
 }

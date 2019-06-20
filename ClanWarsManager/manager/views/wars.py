@@ -21,6 +21,7 @@ class WarListView(ListView):
 
     template_name = 'wars/list.html'
     paginate_by = 10
+    context_object_name = "wars"
 
     def get_queryset(self):
         if self.request.user.is_authenticated and self.request.user.clan is not None:
@@ -60,6 +61,7 @@ class WarDeleteView(LoginRequiredMixin, DeleteView):
 class WarDetailView(LoginRequiredMixin, DetailView):
 
     template_name = "wars/details.html"
+    context_object_name = "war"
 
     def get_object(self):
         war = get_object_or_404(War, pk=self.kwargs.get("pk"))

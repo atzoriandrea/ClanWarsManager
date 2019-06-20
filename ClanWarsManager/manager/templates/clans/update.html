@@ -19,11 +19,11 @@
     <ul>
         {% for member in members %}
             <li>
-                {% if object.clanMaster == member%}
+                {% if clan.clanMaster == member%}
                     CM -
                 {% endif %}
                 {{member.username}}
-                {% if object.clanMaster != member %}
+                {% if clan.clanMaster != member %}
                     <form method="POST" action="{% url 'clans_kick' member.username%}">
                         {% csrf_token %}
                         <p>

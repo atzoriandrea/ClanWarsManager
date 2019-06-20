@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('.sidenav').sidenav();
+    M.AutoInit();
     $(".dropdown-trigger").dropdown({
         coverTrigger: false
     });

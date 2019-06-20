@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 199.1774 39.799118"
+   height="3.979912cm"
+   width="19.91774cm">
+  <defs
+     id="defs2" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(-10.411299,-247.10046)"
+     id="layer1">
+    <text
+       id="text12"
+       y="278.26755"
+       x="7.7445903"
+       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26458332;"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.39999962px;font-family:'Heroes Legend';-inkscape-font-specification:'Heroes Legend';fill:#ffffff;stroke-width:0.26458332;"
+         y="278.26755"
+         x="7.7445903"
+         id="tspan10"><tspan
+   id="tspan14"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Heroes Legend Hollow';-inkscape-font-specification:'Heroes Legend Hollow';fill:#ffffff;">Clan</tspan>Wars</tspan></text>
+  </g>
+</svg>

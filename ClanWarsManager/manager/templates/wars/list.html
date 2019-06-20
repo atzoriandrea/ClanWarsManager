@@ -9,7 +9,7 @@
     <p><a href="{% url 'user_logout' %}">logout</a></p>
     <h3>Wars</h3>
     <ul>
-          {% for war in object_list %}
+          {% for war in wars %}
               <li>
                 <a href={{war.get_absolute_url}}>
                     {{war}}

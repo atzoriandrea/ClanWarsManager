@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}Guerra {{object}} {% endblock %}
+{% block title %}Guerra {{war}} {% endblock %}
 
 {% block content %}
 
     <h2>Guerra </h2>
-    <h4>{{object.date}}</h4>
-    <h5>Enemy: {{object.enemyClanName}}</h5>
+    <h4>{{war.date}}</h4>
+    <h5>Enemy: {{war.enemyClanName}}</h5>
 
     <!-- <p>Ally vs Enemy | Ally Destruction % | Enemy Destruction % | Result</p>
     {% for battle in battles %}
@@ -27,8 +27,8 @@
             {{form}}
         {% endfor %}
     </form>
-    {% if object.allyClan.clanMaster == user %}
-        <form method="POST" action="{% url 'wars_delete' object.id %}">
+    {% if war.allyClan.clanMaster == user %}
+        <form method="POST" action="{% url 'wars_delete' war.id %}">
             {% csrf_token %}
             <p>
                 <input type="submit" value="Delete"/>

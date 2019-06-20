@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}{{object.name}}{% endblock %}
+{% block title %}{{clan.name}}{% endblock %}
 
 {% block content %}
-    <h2>Clan: {{object.name}}</h2>
-    {% if user.is_authenticated and user.clan is None and object.members.count < object.maxMembers %}
-        <form method="POST" action="{% url 'clans_join' object.id%}">
+    <h2>Clan: {{clan.name}}</h2>
+    {% if user.is_authenticated and user.clan is None and clan.members.count < clan.maxMembers %}
+        <form method="POST" action="{% url 'clans_join' clan.id%}">
                 {% csrf_token %}
                 <p>
                     <input type="submit" value="Enter"/>
@@ -23,9 +23,9 @@
     {%endif%}
     <h4>Members:</h4>
     <ul>
-        {% for member in object.members.all %}
+        {% for member in clan.members.all %}
             <li>
-                {% if object.clanMaster == member%}
+                {% if clan.clanMaster == member%}
                     CM -
                 {% endif %}
                 {{member.username}}
@@ -33,14 +33,14 @@
         {% endfor %}
     </ul>
     {% if user.is_authenticated and user.clan is not None and user.clan.clanMaster == user  %}
-        <form method="POST" action="{% url 'clans_fight' object.id%}">
+        <form method="POST" action="{% url 'clans_fight' clan.id%}">
                 {% csrf_token %}
                 <p>
                     <input type="submit" value="Fight"/>
                 </p>
         </form>
     {%endif%}
-    {% if object == user.clan %}
+    {% if clan == user.clan %}
         <form method="POST" action="{% url 'clans_leave' %}">
             {% csrf_token %}
             <p>

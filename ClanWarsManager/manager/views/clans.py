@@ -17,7 +17,8 @@ from django.views.generic import (
 class ClanListView(ListView):
 
     template_name = "clans/list.html"
-    paginate_by = 10
+    paginate_by = 4 
+    context_object_name = "clans"
 
     def get_queryset(self):
         query = self.request.GET.get("q")
@@ -42,6 +43,7 @@ class ClanDeleteView(LoginRequiredMixin, DeleteView):
 class ClanDetailsView(DetailView):
 
     template_name = "clans/details.html"
+    context_object_name = "clan"
 
     def get_object(self):
         return get_object_or_404(Clan, pk=self.kwargs.get("pk"))
@@ -88,6 +90,7 @@ class ClanUpdateView(LoginRequiredMixin, UpdateView):
 
     template_name = "clans/update.html"
     form_class = ClanForm
+    context_object_name = "clan"
 
     def get_object(self):
         clan = self.request.user.clan

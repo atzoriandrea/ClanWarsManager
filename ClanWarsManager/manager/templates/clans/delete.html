@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Delete {{object.name}}{% endblock %}
+{% block title %}Delete {{clan.name}}{% endblock %}
 
 {% block content %}
     <form method="POST">
         {% csrf_token %}
-        <h2>Delete clan {{object.name}}?</h2>
+        <h2>Delete clan {{clan.name}}?</h2>
         <p>
             <input type="submit" value="Yes"/>
             <a href="{% url 'clans_list' %}">No</a>

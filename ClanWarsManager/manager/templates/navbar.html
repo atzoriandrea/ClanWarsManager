@@ -3,9 +3,11 @@
 <nav>
     <div class="nav-wrapper">
         <a href="{% url 'home' %}" class="brand-logo">
-            <img class="logo-img" src="{% static "images/logo.png" %}">
+            <img class="logo-img" src="{% static "images/logotype.svg" %}">
         </a>
-        <a href="#" data-target="mobile-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <a href="#" data-target="mobile-sidenav" class="sidenav-trigger waves-effect">
+            <i class="material-icons">menu</i>
+        </a>
         <ul class="right hide-on-med-and-down">
             {% if request.user.is_authenticated %}
             <li class="waves-effect">
@@ -36,7 +38,7 @@
             </li>
             {% if request.user.is_authenticated %}
             <li>
-                <a class="dropdown-trigger waves-effect" href="#!" data-target="logout-dropdown">
+                <a class="dropdown-trigger waves-effect no-autoinit" href="#!" data-target="logout-dropdown">
                     <i class="material-icons left">person</i>
                     {{user.username}}
                     <i class="material-icons right">arrow_drop_down</i>
