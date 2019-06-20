@@ -6,8 +6,27 @@
 
     <h2>Guerra </h2>
     <h4>{{object.date}}</h4>
-    <h5>{{object.enemyClanName}}</h5>
+    <h5>Enemy: {{object.enemyClanName}}</h5>
 
+    <!-- <p>Ally vs Enemy | Ally Destruction % | Enemy Destruction % | Result</p>
+    {% for battle in battles %}
+        {% if ally != user or ally.clan.clanMaster != user %}
+            <p>{{battle.ally}} vs {{battle.enemy.username}} | {{battle.allyDestruction}}% | {{battle.enemyDestruction}}% | 
+            {% if battle.allyVictory %}
+                Vinta!
+            {% endif %}
+        {% else %}
+        {% endif %}
+        </p>
+    {% endfor %} -->
+
+    <form method="POST">
+        {% csrf_token %}
+        {% for form in formset %}
+            <br>
+            {{form}}
+        {% endfor %}
+    </form>
     {% if object.allyClan.clanMaster == user %}
         <form method="POST" action="{% url 'wars_delete' object.id %}">
             {% csrf_token %}

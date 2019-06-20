@@ -2,9 +2,10 @@ from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
 from .forms import CustomUserCreationForm, ClanForm
-from .models import War, Clan, User, Battle, EnemyUserSnapshot
+from .models import *
 from django.core.exceptions import PermissionDenied
 from django.utils.http import urlencode
+from django.forms import modelformset_factory, inlineformset_factory
 from django.views.generic import (
     View,
     CreateView,
@@ -199,6 +200,10 @@ class WarDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context["enemies"] = EnemyUserSnapshot.objects.filter(war=self.get_object())
         context["allies"] = User.objects.filter(clan=self.request.user.clan)
+        battles = Battle.objects.filter(war=self.get_object())
+        context["battles"] = battles
+        BattleFormSet = inlineformset_factory(War, Battle, exclude=("war", ), extra=0)  
+        context["formset"] = BattleFormSet(instance=self.get_object())
         return context
 
     def dispatch(self, *args, **kwargs):
