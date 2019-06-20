@@ -4,7 +4,7 @@
 
 {% block content %}
     <h2>Clan: {{object.name}}</h2>
-    {% if canjoin %}
+    {% if user.is_authenticated and user.clan is None and object.members.count < object.maxMembers %}
         <form method="POST" action="{% url 'clan_join' object.id%}">
                 {% csrf_token %}
                 <p>
@@ -12,15 +12,18 @@
                 </p>
         </form>
     {%endif%}
-    {% if removedUser is not None %}
-        <p>Hai rimosso ----> {{ removedUser.username }}</p>
+    {% if request.GET.kickedUsername is not None %}
+        <p>Hai rimosso ----> {{ request.GET.kickedUsername }}</p>
     {%endif%}
     {% if request.GET.joined %}
         <p>Sei entrato a far parte del clan</p>
     {%endif%}
+    {% if request.GET.leaved %}
+        <p>Hai abbandonato il clan</p>
+    {%endif%}
     <h4>Members:</h4>
     <ul>
-        {% for member in members %}
+        {% for member in object.members.all %}
             <li>
                 {% if object.clanMaster == member%}
                     CM -
