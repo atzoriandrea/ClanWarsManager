@@ -21,7 +21,7 @@
                     Il mio clan
                 </a>
                 {% else %}
-                <a href="#">
+                <a href="{% url 'clans_create' %}">
                     <i class="material-icons left">add</i>
                     Crea clan
                 </a>
@@ -100,7 +100,7 @@
             Il mio clan
         </a>
         {% else %}
-        <a href="#" class="waves-effect">
+        <a href="{% url 'clans_create' %}" class="waves-effect">
             <i class="material-icons left">add</i>
             Crea clan
         </a>

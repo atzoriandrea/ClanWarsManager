@@ -5,7 +5,7 @@
 {% block content %}
     <h2>Clan: {{object.name}}</h2>
     {% if user.is_authenticated and user.clan is None and object.members.count < object.maxMembers %}
-        <form method="POST" action="{% url 'clan_join' object.id%}">
+        <form method="POST" action="{% url 'clans_join' object.id%}">
                 {% csrf_token %}
                 <p>
                     <input type="submit" value="Enter"/>
@@ -41,7 +41,7 @@
         </form>
     {%endif%}
     {% if object == user.clan %}
-        <form method="POST" action="{% url 'clan_leave' %}">
+        <form method="POST" action="{% url 'clans_leave' %}">
             {% csrf_token %}
             <p>
                 <input type="submit" value="Leave"/>

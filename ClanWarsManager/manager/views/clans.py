@@ -96,6 +96,18 @@ class ClanUpdateView(LoginRequiredMixin, UpdateView):
         else:
             raise PermissionDenied()
 
+class ClanCreateView(LoginRequiredMixin, View):
+
+    def dispatch(self, request, **kwargs):
+        if request.user.clan is not None:
+            raise PermissionDenied()
+        clan = Clan.objects.create(name='', clanMaster= request.user)
+        clan.save()
+        request.user.clan = clan
+        request.user.save()
+        query = urlencode({'created': True})
+        return redirect(clan.get_absolute_url() + f"?{query}")
+
 
 class ClanJoinView(LoginRequiredMixin, View):
 

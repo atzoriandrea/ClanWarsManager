@@ -4,7 +4,9 @@
     {% if removedUser is not None %}
         <p>Hai rimosso ----> {{ removedUser.username }}</p>
     {%endif%}
-
+    {% if request.GET.created %}
+        <p>Hai creato il tuo clan</p>
+    {%endif%}
     <form method="POST">
         {% csrf_token %}
         {{form.as_p}}
@@ -22,7 +24,7 @@
                 {% endif %}
                 {{member.username}}
                 {% if object.clanMaster != member %}
-                    <form method="POST" action="{% url 'clan_kick' member.username%}">
+                    <form method="POST" action="{% url 'clans_kick' member.username%}">
                         {% csrf_token %}
                         <p>
                             <input type="submit" value="Remove"/>
@@ -33,7 +35,7 @@
         {% endfor %}
     </ul>
 
-    <form method="POST" action="{% url 'clan_delete'%}">
+    <form method="POST" action="{% url 'clans_delete'%}">
         {% csrf_token %}
         <p>
             <input type="submit" value="Delete Clan"/>
