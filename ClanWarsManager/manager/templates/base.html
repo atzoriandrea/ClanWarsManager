@@ -27,7 +27,7 @@
 
   <!-- Navigation -->
   <header>
-    {% include "navbar.html" %}
+    {% include "commons/navbar.html" %}
   </header>
 
   <!-- Content -->
@@ -40,36 +40,16 @@
   </main>
 
   <!-- Footer -->
-  <footer class="page-footer">
-    <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h6>Applicazione</h6>
-          <p class="description"><b>ClanWars manager</b> consente di organizzare le tue partite di Clash of Clans e altre robe</p>
-        </div>
-        <div class="col l4 offset-l2 s12">
-          <h6>Creatori</h6>
-          <ul class="authors">
-            <li>Andrea Atzori</li>
-            <li>Davide Corda</li>
-            <li>Nicola Manca</li>
-            <li>Francesco Zoccheddu</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="footer-copyright">
-      <div class="container">
-      © 2019 Copyright
-      <img class="logotype right" src="{% static "images/logotype.svg" %}">
-      </div>
-    </div>
-  </footer>
+  {% include "commons/footer.html" %}
 
   <!-- Import scripts -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script type="text/javascript" src="{% static "js/materialize.min.js" %}"></script>
   <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
+
+  {% block toasts %}
+  {% endblock %}
+
 </body>
 
 </html>

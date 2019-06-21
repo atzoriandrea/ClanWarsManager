@@ -21,9 +21,7 @@ from .views.clans import (
 )
 
 urlpatterns = [
-    path(r'', include([
-        path(r'', HomeDispatcherView.as_view(), name='home'),
-    ])),
+    path(r'', HomeDispatcherView.as_view(), name='home'),
     # User
     path(r'', include([
         path(r'signup/', SignupView.as_view(), name='user_signup'),

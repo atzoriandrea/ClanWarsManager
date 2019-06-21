@@ -21,5 +21,11 @@
     <a class="collection-item waves-effect" href="{{clan.get_absolute_url}}">{{clan.name}}</a>
   {% endfor %}
 </ul>
-{% include "pagination.html" %}
+{% include "commons/pagination.html" %}
+{% endblock %}
+
+{% block toasts %}
+{% if request.GET.clanDeleted %}
+{% include "commons/toast.html" with toast_msg="Hai eliminato il tuo clan" %}
+{% endif %}
 {% endblock %}

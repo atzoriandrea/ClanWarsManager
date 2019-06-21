@@ -11,16 +11,7 @@
                     <input type="submit" value="Enter"/>
                 </p>
         </form>
-    {%endif%}
-    {% if request.GET.kickedUsername is not None %}
-        <p>Hai rimosso ----> {{ request.GET.kickedUsername }}</p>
-    {%endif%}
-    {% if request.GET.joined %}
-        <p>Sei entrato a far parte del clan</p>
-    {%endif%}
-    {% if request.GET.leaved %}
-        <p>Hai abbandonato il clan</p>
-    {%endif%}
+    {% endif %}
     <h4>Members:</h4>
     <ul>
         {% for member in clan.members.all %}
@@ -49,4 +40,13 @@
         </form>
     {% endif %}
 
+{% endblock %}
+
+{% block toasts %}
+{% if request.GET.joined %}
+{% include "commons/toast.html" with toast_msg="Sei entrato a far parte del clan" %}
+{% endif %}
+{% if request.GET.leaved %}
+{% include "commons/toast.html" with toast_msg="Hai abbandonato il clan" %}
+{% endif %}
 {% endblock %}

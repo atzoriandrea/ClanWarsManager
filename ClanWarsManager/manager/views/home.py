@@ -1,24 +1,12 @@
-from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
-from django.utils import timezone
-from ..models import War, EnemyUserSnapshot, Clan, Battle
-from django.core.exceptions import PermissionDenied
+from django.shortcuts import render
 from .wars import WarListView
-from django.views.generic import (
-    View,
-    DeleteView,
-    DetailView,
-    ListView,
-    TemplateView
-)
+from django.views.generic import View
+
+
 class HomeDispatcherView(View):
 
     def dispatch(self, request, **kwargs):
-        if request.user.is_authenticated:
-            view = WarListView.as_view()
+        if request.user.is_authenticated and request.user.clan is not None:
+            return WarListView.as_view()(request, **kwargs)
         else:
             return render(request, 'home/homepage.html')
-
-        return view(request, **kwargs)
-

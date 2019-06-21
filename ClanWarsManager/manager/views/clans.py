@@ -1,4 +1,4 @@
-from django.shortcuts import  get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from ..forms import ClanForm
@@ -17,7 +17,7 @@ from django.views.generic import (
 class ClanListView(ListView):
 
     template_name = "clans/list.html"
-    paginate_by = 4 
+    paginate_by = 4
     context_object_name = "clans"
 
     def get_queryset(self):
@@ -29,7 +29,6 @@ class ClanListView(ListView):
 
 class ClanDeleteView(LoginRequiredMixin, DeleteView):
 
-    template_name = "clans/delete.html"
     success_url = reverse_lazy("clans_list")
 
     def get_object(self):
@@ -44,9 +43,7 @@ class ClanDetailsView(DetailView):
 
     template_name = "clans/details.html"
     context_object_name = "clan"
-
-    def get_object(self):
-        return get_object_or_404(Clan, pk=self.kwargs.get("pk"))
+    model = Clan
 
 
 class ClanDetailsDispatcherView(View):
@@ -99,12 +96,13 @@ class ClanUpdateView(LoginRequiredMixin, UpdateView):
         else:
             raise PermissionDenied()
 
+
 class ClanCreateView(LoginRequiredMixin, View):
 
     def dispatch(self, request, **kwargs):
         if request.user.clan is not None:
             raise PermissionDenied()
-        clan = Clan.objects.create(name='', clanMaster= request.user)
+        clan = Clan.objects.create(name='', clanMaster=request.user)
         clan.save()
         request.user.clan = clan
         request.user.save()

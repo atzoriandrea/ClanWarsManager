@@ -10,12 +10,14 @@
         </a>
         <ul class="right hide-on-med-and-down">
             {% if request.user.is_authenticated %}
+            {% if request.user.clan is not None %}
             <li class="waves-effect">
                 <a href="{% url 'wars_list' %}">
                     <i class="material-icons left">gamepad</i>
                     Le mie guerre
                 </a>
             </li>
+            {% endif %}
             <li class="waves-effect">
                 {% if request.user.clan is not None %}
                 <a href="{{user.clan.get_absolute_url}}">

@@ -44,3 +44,13 @@
     
 
 {% endblock %}
+
+
+{% block toasts %}
+{% if request.GET.kickedUsername is not None %}
+{% include "commons/toast.html" with toast_msg="Hai rimosso "|add:request.GET.kickedUsername %}
+{% endif %}
+{% if request.GET.created %}
+{% include "commons/toast.html" with toast_msg="Hai creato il clan" %}
+{% endif %}
+{% endblock %}
