@@ -2,6 +2,7 @@ from django.urls import path, include, reverse_lazy
 from django.contrib.auth import views as auth_views
 from django.views.generic import RedirectView
 from .views.home import HomeDispatcherView
+from .views.battles import BattleCreateView
 from .views.wars import (
     WarCreateView,
     WarDetailView,
@@ -33,6 +34,11 @@ urlpatterns = [
         path(r'', WarListView.as_view(), name='wars_list'),
         path(r'<int:pk>', WarDetailView.as_view(), name='wars_details'),
         path(r'<int:pk>/delete', WarDeleteView.as_view(), name='wars_delete'),
+        path(r'<int:pk>/addbattle', BattleCreateView.as_view(), name='wars_add_battle'),
+    ])),
+    #Battles
+    path(r'battles/',include([
+
     ])),
     # Clans
     path(r'clans/', include([

@@ -49,8 +49,11 @@ class Battle(models.Model):
     enemy = models.ForeignKey(EnemyUserSnapshot, on_delete=models.CASCADE, related_name="battles")
     allyDestruction = models.SmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
     enemyDestruction = models.SmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
-    allyVictory = models.BooleanField()
+    allyVictory = models.BooleanField(default=False)
     war = models.ForeignKey(War, on_delete=models.CASCADE, related_name="battles")
+
+    def get_absolute_url(self):
+        return reverse("battle_details", kwargs={'pk': self.pk})
 
     def __str__(self):
         return f"{self.ally.username} vs {self.enemy.username}"
