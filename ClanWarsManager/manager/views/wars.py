@@ -43,7 +43,7 @@ class WarCreateView(LoginRequiredMixin, View):
 class WarDeleteView(LoginRequiredMixin, DeleteView):
 
     success_url = reverse_lazy("wars_list")
-    mode = War
+    model = War
 
     def get_object(self):
         war = super().get_object()

@@ -7,33 +7,41 @@
     <h2>Guerra </h2>
     <h4>{{war.date}}</h4>
     <h5>Enemy: {{war.enemyClanName}}</h5>
+    {% if war.allyClan.clanMaster == user %}
+        <form method="POST" id="deleteForm" action="{% url 'wars_delete' war.id %}">
+            {% csrf_token %}
 
-    <!-- <p>Ally vs Enemy | Ally Destruction % | Enemy Destruction % | Result</p>
-    {% for battle in battles %}
-        {% if ally != user or ally.clan.clanMaster != user %}
-            <p>{{battle.ally}} vs {{battle.enemy.username}} | {{battle.allyDestruction}}% | {{battle.enemyDestruction}}% | 
+                <a class="waves-effect waves-light btn-large" onclick="$('#deleteForm').submit()"><i class="material-icons left">delete</i>Elimina War</a>
+
+        </form>
+    {% endif %}
+    <!-- <p>Ally vs Enemy | Ally Destruction % | Enemy Destruction % | Result</p> -->
+    <ul class="collection with-header">
+        <li class="collection-header"><h5>Nome | Distruzione</h5></li>
+    {% for battle in war.battles.all %}
+        <li class="collection-item">
+            <div>{{battle.ally}} vs {{battle.enemy.username}} | {{battle.allyDestruction}}% | {{battle.enemyDestruction}}% |
             {% if battle.allyVictory %}
                 Vinta!
             {% endif %}
-        {% else %}
-        {% endif %}
-        </p>
-    {% endfor %} -->
+            {% if battle.ally == user or battle.ally.clan.clanMaster == user %}
 
-    <form method="POST">
-        {% csrf_token %}
-        {% for form in formset %}
-            <br>
-            {{form}}
-        {% endfor %}
-    </form>
-    {% if war.allyClan.clanMaster == user %}
-        <form method="POST" action="{% url 'wars_delete' war.id %}">
+                    <a href="#!" class="secondary-content waves-effect"><i class="material-icons">edit</i></a>
+                    <a href="#!" class="secondary-content waves-effect"><i class="material-icons">delete</i></a>
+
+            {% endif %}
+            </div>
+        </li>
+
+    {% endfor %}
+    </ul>
+
+    <form method="POST" id="addForm" action="{% url 'wars_delete' war.id %}">
             {% csrf_token %}
-            <p>
-                <input type="submit" value="Delete"/>
-            </p>
-        </form>
-    {% endif %}
+
+                <a class="btn-floating btn-large waves-effect waves-light right" onclick="$('#addForm').submit()"><i class="material-icons">add</i></a>
+
+    </form>
+
 
 {% endblock %}

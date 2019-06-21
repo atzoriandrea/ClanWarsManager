@@ -17,7 +17,7 @@
 
     <h4>Members:</h4>
     <ul>
-        {% for member in members %}
+        {% for member in clan.members.all %}
             <li>
                 {% if clan.clanMaster == member%}
                     CM -
