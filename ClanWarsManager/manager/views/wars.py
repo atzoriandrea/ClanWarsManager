@@ -36,13 +36,13 @@ class WarCreateView(LoginRequiredMixin, View):
                     for enemy in enemyClan.members.all():
                         newEnemySnapshot = EnemyUserSnapshot.objects.create(username=enemy.username, war=newWar)
                         newEnemySnapshot.save()
-                    return redirect(newWar.get_absolute_url())
+                    return redirect(newWar.get_absolute_url()) #TODO : created=True missing
         raise PermissionDenied()
 
 
 class WarDeleteView(LoginRequiredMixin, DeleteView):
 
-    success_url = reverse_lazy("wars_list")
+    success_url = reverse_lazy("wars_list") #TODO : warDeleted=True missing
     model = War
 
     def get_object(self):

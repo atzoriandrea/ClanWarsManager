@@ -29,7 +29,7 @@ class ClanListView(ListView):
 
 class ClanDeleteView(LoginRequiredMixin, DeleteView):
 
-    success_url = reverse_lazy("clans_list")
+    success_url = reverse_lazy("clans_list") # TODO: clanDeleted = True missing
 
     def get_object(self):
         clan = self.request.user.clan

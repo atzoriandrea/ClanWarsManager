@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <p>
+            <input type="submit" value="Save"/>
+        </p>
+    </form>
+
+
+
+    <form method="POST" action="{% url 'battles_delete' battle.pk %}">
+        {% csrf_token %}
+        <p>
+            <input type="submit" value="Cancella Battaglia"/>
+        </p>
+    </form>
+    
+
+{% endblock %}
+
+
+{% block toasts %}
+{% if request.GET.created %}
+{% include "commons/toast.html" with toast_msg="Hai creato la battaglia" %}
+{% endif %}
+{% endblock %}

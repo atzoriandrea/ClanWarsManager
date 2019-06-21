@@ -11,7 +11,7 @@
         <form method="POST" id="deleteForm" action="{% url 'wars_delete' war.pk %}">
             {% csrf_token %}
 
-                <a class="waves-effect waves-light btn-large" onclick="$('#deleteForm').submit()"><i class="material-icons left">delete</i>Elimina War</a>
+                <a class="waves-effect waves-light btn-large" onclick="this.parentNode.submit()"><i class="material-icons left">delete</i>Elimina War</a>
 
         </form>
     {% endif %}
@@ -25,9 +25,14 @@
                 Vinta!
             {% endif %}
             {% if battle.ally == user or battle.ally.clan.clanMaster == user %}
-
-                    <a href="#!" class="secondary-content waves-effect"><i class="material-icons">edit</i></a>
-                    <a href="#!" class="secondary-content waves-effect"><i class="material-icons">delete</i></a>
+                    <form method="POST" class="secondary-content" action="{% url 'battles_delete' battle.pk %}">
+                        {% csrf_token %}
+                        <a href="#!" class=" waves-effect"><i class="material-icons">edit</i></a>
+                    </form>
+                    <form method="POST" class="secondary-content" action="{% url 'battles_delete' battle.pk %}">
+                        {% csrf_token %}
+                        <a class=" waves-effect" onclick="this.parentNode.submit()"><i class="material-icons">delete</i></a>
+                    </form>
 
             {% endif %}
             </div>
@@ -39,7 +44,7 @@
     <form method="POST" id="addForm" action="{% url 'wars_add_battle' war.pk %}">
             {% csrf_token %}
 
-                <a class="btn-floating btn-large waves-effect waves-light right" onclick="$('#addForm').submit()"><i class="material-icons">add</i></a>
+                <a class="btn-floating btn-large waves-effect waves-light right" onclick="this.parentNode.submit()"><i class="material-icons">add</i></a>
 
     </form>
 

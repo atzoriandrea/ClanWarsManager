@@ -53,7 +53,7 @@ class Battle(models.Model):
     war = models.ForeignKey(War, on_delete=models.CASCADE, related_name="battles")
 
     def get_absolute_url(self):
-        return reverse("battle_details", kwargs={'pk': self.pk})
+        return reverse("battles_update", kwargs={'pk': self.pk})
 
     def __str__(self):
         return f"{self.ally.username} vs {self.enemy.username}"
