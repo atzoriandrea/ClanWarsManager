@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+  <h2>Benvenuto in ClanWarsManager</h2>
+
+    <a href="{% url 'user_login' %}">Log In</a> |
+    <a href="{% url 'user_signup' %}">Registrati</a> |
+    <a href="{% url 'clans_list' %}">Visualizza i Clan</a>
+{% endblock %}

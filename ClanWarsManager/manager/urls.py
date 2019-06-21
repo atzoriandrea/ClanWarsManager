@@ -1,6 +1,7 @@
 from django.urls import path, include, reverse_lazy
 from django.contrib.auth import views as auth_views
 from django.views.generic import RedirectView
+from .views.home import HomeDispatcherView
 from .views.wars import (
     WarCreateView,
     WarDetailView,
@@ -20,7 +21,9 @@ from .views.clans import (
 )
 
 urlpatterns = [
-    path(r'', RedirectView.as_view(url=reverse_lazy("wars_list")), name='home'),
+    path(r'', include([
+        path(r'', HomeDispatcherView.as_view(), name='home'),
+    ])),
     # User
     path(r'', include([
         path(r'signup/', SignupView.as_view(), name='user_signup'),
