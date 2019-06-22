@@ -4,6 +4,9 @@
 
 {% block content %}
 
+{% load postlinks %}
+{% hiddenform %}
+
 <h2>Guerra </h2>
 <h4>{{war.date}}</h4>
 <h5>Enemy: {{war.enemyClanName}}</h5>
@@ -11,7 +14,7 @@
 <form method="POST" id="deleteForm" action="{% url 'wars_delete' war.pk %}">
     {% csrf_token %}
 
-    <a class="waves-effect waves-light btn-large" onclick="this.parentNode.submit()"><i
+    <a class="waves-effect waves-light btn-large" {% submitParentOnClick %}><i
             class="material-icons left">delete</i>Elimina War</a>
 
 </form>
@@ -32,13 +35,13 @@
             {% if battle.ally == user or battle.ally.clan.clanMaster == user %}
             <form method="POST" class="secondary-content" action="{% url 'battles_update' battle.pk %}">
                 {% csrf_token %}
-                <a class=" waves-effect waves-circle" onclick="this.parentNode.submit()">
+                <a class=" waves-effect waves-circle" {% submitParentOnClick %}>
                     <i class="material-icons">edit</i>
                 </a>
             </form>
             <form method="POST" class="secondary-content" action="{% url 'battles_delete' battle.pk %}">
                 {% csrf_token %}
-                <a class=" waves-effect waves-circle" onclick="this.parentNode.submit()">
+                <a class=" waves-effect waves-circle" {% submitParentOnClick %}>
                     <i class="material-icons">delete</i>
                 </a>
             </form>
@@ -52,7 +55,7 @@
 <form method="POST" id="addForm" action="{% url 'wars_addbattle' war.pk %}">
     {% csrf_token %}
 
-    <a class="btn-floating btn-large waves-effect waves-light right" onclick="this.parentNode.submit()"><i
+    <a class="btn-floating btn-large waves-effect waves-light right" {% submitParentOnClick %}><i
             class="material-icons">add</i></a>
 
 </form>

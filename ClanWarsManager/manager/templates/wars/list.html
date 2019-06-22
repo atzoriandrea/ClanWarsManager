@@ -5,8 +5,6 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-Hi {{ user.username }}!
-<p><a href="{% url 'user_logout' %}">logout</a></p>
 <h3>Wars</h3>
 <ul class="collection">
     {% for war in wars %}
@@ -26,7 +24,7 @@ Hi {{ user.username }}!
 <a href="{% url 'user_signup' %}">signup</a> |
 {% endif %}
 
-<a href="{% url 'clans_list' %}">Clans</a>
+<a class = "btn waves-effect" href="{% url 'clans_list' %}">Sfida un altro clan!</a>
 
 
 {% load toasts %}

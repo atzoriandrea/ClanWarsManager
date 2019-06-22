@@ -3,40 +3,49 @@
 {% block title %}{{clan.name}}{% endblock %}
 
 {% block content %}
+
+{% load postlinks %}
+{% hiddenform %}
+
+
     <h2>Clan: {{clan.name}}</h2>
     {% if user.is_authenticated and user.clan is None and clan.members.count < clan.maxMembers %}
         <form method="POST" action="{% url 'clans_join' clan.id%}">
                 {% csrf_token %}
                 <p>
-                    <input type="submit" value="Enter"/>
+                    <a class="waves-effect waves-light btn"  {% submitParentOnClick %} >
+                        Enter
+                    </a>
                 </p>
         </form>
     {% endif %}
     <h4>Members:</h4>
-    <ul>
+    <ul class="collection">
         {% for member in clan.members.all %}
-            <li>
-                {% if clan.clanMaster == member%}
-                    CM -
-                {% endif %}
+            <li class="collection-item">
                 {{member.username}}
+                {% if clan.clanMaster == member%}
+                    <span class="badge">
+                        Clan Master
+                    </span>
+                {% endif %}
             </li>
         {% endfor %}
     </ul>
     {% if user.is_authenticated and user.clan is not None and user.clan.clanMaster == user  %}
-        <form method="POST" action="{% url 'clans_fight' clan.id%}">
-                {% csrf_token %}
-                <p>
-                    <input type="submit" value="Fight"/>
-                </p>
+        <form method="POST" action="{% url 'clans_fight' clan.pk%}">
+            {% csrf_token %}
+                <a class="waves-effect waves-light btn"  {% submitParentOnClick %}>
+                    Fight
+                </a>
         </form>
     {%endif%}
     {% if clan == user.clan %}
         <form method="POST" action="{% url 'clans_leave' %}">
             {% csrf_token %}
-            <p>
-                <input type="submit" value="Leave"/>
-            </p>
+                <a class="waves-effect waves-light btn"  {% submitParentOnClick %}>
+                    Leave
+                </a>
         </form>
     {% endif %}
     
