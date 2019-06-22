@@ -6,6 +6,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class User(AbstractUser):
+
     clan = models.ForeignKey("Clan", on_delete=models.SET_NULL, null=True, blank=True, related_name="members")
 
     def __str__(self):
@@ -13,8 +14,9 @@ class User(AbstractUser):
 
 
 class Clan(models.Model):
+
     name = models.CharField(max_length=30)
-    clanMaster = models.OneToOneField(User, on_delete=models.CASCADE, related_name="+")
+    clanMaster = models.OneToOneField(User, on_delete=models.CASCADE, related_name="+", null=False, blank=False)
     maxMembers = models.PositiveSmallIntegerField(default=20, validators=[MinValueValidator(1), MaxValueValidator(50)])
 
     def get_absolute_url(self):
@@ -25,7 +27,8 @@ class Clan(models.Model):
 
 
 class War(models.Model):
-    allyClan = models.ForeignKey(Clan, on_delete=models.CASCADE, related_name="wars")
+
+    allyClan = models.ForeignKey(Clan, on_delete=models.CASCADE, related_name="wars", null=False, blank=False)
     enemyClanName = models.TextField(max_length=30)
     date = models.DateField()
 
@@ -37,20 +40,22 @@ class War(models.Model):
 
 
 class EnemyUserSnapshot(models.Model):
+
     username = models.TextField(max_length=30)
-    war = models.ForeignKey(War, on_delete=models.CASCADE, related_name="enemies")
+    war = models.ForeignKey(War, on_delete=models.CASCADE, related_name="enemies", null=False, blank=False)
 
     def __str__(self):
         return f"{self.username} @ {str(self.war)}"
 
 
 class Battle(models.Model):
-    ally = models.ForeignKey(User, on_delete=models.CASCADE, related_name="battles")
-    enemy = models.ForeignKey(EnemyUserSnapshot, on_delete=models.CASCADE, related_name="battles")
+
+    ally = models.ForeignKey(User, on_delete=models.CASCADE, related_name="battles", null=False, blank=False)
+    enemy = models.ForeignKey(EnemyUserSnapshot, on_delete=models.CASCADE, related_name="battles", null=False, blank=False)
     allyDestruction = models.SmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
     enemyDestruction = models.SmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
     allyVictory = models.BooleanField(default=False)
-    war = models.ForeignKey(War, on_delete=models.CASCADE, related_name="battles")
+    war = models.ForeignKey(War, on_delete=models.CASCADE, related_name="battles", null=False, blank=False)
 
     def get_absolute_url(self):
         return reverse("battles_update", kwargs={'pk': self.pk})

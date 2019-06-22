@@ -39,14 +39,9 @@
             </p>
         </form>
     {% endif %}
-
-{% endblock %}
-
-{% block toasts %}
-{% if request.GET.joined %}
-{% include "commons/toast.html" with toast_msg="Sei entrato a far parte del clan" %}
-{% endif %}
-{% if request.GET.leaved %}
-{% include "commons/toast.html" with toast_msg="Hai abbandonato il clan" %}
-{% endif %}
+    
+    {% load toasts %}
+    {% toast_if request.GET.joined "Sei entrato a far parte del clan" %}
+    {% toast_if request.GET.leaved "Hai abbandonato il clan" %}
+    
 {% endblock %}

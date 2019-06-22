@@ -1,7 +1,8 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.urls import reverse
 from django.utils import timezone
+from django.utils.http import urlencode
 from ..models import War, EnemyUserSnapshot, Clan
 from django.core.exceptions import PermissionDenied
 from django.views.generic import (
@@ -31,19 +32,23 @@ class WarCreateView(LoginRequiredMixin, View):
             enemyClan = get_object_or_404(Clan, pk=pk)
             if (myClan != enemyClan):
                 with transaction.atomic():
-                    newWar = War.objects.create(allyClan=myClan, enemyClanName=enemyClan.name, date=timezone.now())
-                    newWar.save()
+                    war = War.objects.create(allyClan=myClan, enemyClanName=enemyClan.name, date=timezone.now())
+                    war.save()
                     for enemy in enemyClan.members.all():
-                        newEnemySnapshot = EnemyUserSnapshot.objects.create(username=enemy.username, war=newWar)
+                        newEnemySnapshot = EnemyUserSnapshot.objects.create(username=enemy.username, war=war)
                         newEnemySnapshot.save()
-                    return redirect(newWar.get_absolute_url()) #TODO : created=True missing
+                    query = urlencode({'created': True})
+                    return redirect(war.get_absolute_url() + f"?{query}")
         raise PermissionDenied()
 
 
 class WarDeleteView(LoginRequiredMixin, DeleteView):
 
-    success_url = reverse_lazy("wars_list") #TODO : warDeleted=True missing
     model = War
+
+    def get_success_url(self):
+        query = urlencode({'deleted': True})
+        return reverse("wars_list") + f"?{query}"
 
     def get_object(self):
         war = super().get_object()

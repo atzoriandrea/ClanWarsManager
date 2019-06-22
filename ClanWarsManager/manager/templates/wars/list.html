@@ -24,4 +24,9 @@
 {% endif %}
 
 <a href="{% url 'clans_list' %}">Clans</a>
+
+
+    {% load toasts %}
+    {% toast_if request.GET.deleted "Guerra eliminata" %}
+
 {% endblock %}

@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.urls import reverse
 from ..forms import ClanForm
 from ..models import User, Clan
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
@@ -29,7 +29,9 @@ class ClanListView(ListView):
 
 class ClanDeleteView(LoginRequiredMixin, DeleteView):
 
-    success_url = reverse_lazy("clans_list") # TODO: clanDeleted = True missing
+    def get_success_url(self):
+        query = urlencode({'clanDeleted': True})
+        return reverse("home") + f"?{query}"
 
     def get_object(self):
         clan = self.request.user.clan
@@ -79,7 +81,7 @@ class ClanKickView(LoginRequiredMixin, View):
         clan = member.clan
         member.clan = None
         member.save()
-        query = urlencode({'kickedUsername': username})
+        query = urlencode({'kicked': True})
         return redirect(clan.get_absolute_url() + f"?{query}")
 
 

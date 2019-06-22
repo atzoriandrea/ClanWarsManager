@@ -6,6 +6,7 @@ from django.contrib.auth.admin import UserAdmin, Group
 from .models import User, Clan, War, Battle, EnemyUserSnapshot
 
 class CustomUserAdmin(UserAdmin):
+    
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = User

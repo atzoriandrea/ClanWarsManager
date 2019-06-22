@@ -1,12 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% if removedUser is not None %}
-        <p>Hai rimosso ----> {{ removedUser.username }}</p>
-    {%endif%}
-    {% if request.GET.created %}
-        <p>Hai creato il tuo clan</p>
-    {%endif%}
+
     <form method="POST">
         {% csrf_token %}
         {{form.as_p}}
@@ -41,16 +36,9 @@
             <input type="submit" value="Delete Clan"/>
         </p>
     </form>
-    
 
-{% endblock %}
+    {% load toasts %}
+    {% toast_if request.GET.kicked "Utente rimosso" %}
+    {% toast_if request.GET.created "Hai creato il clan" %}
 
-
-{% block toasts %}
-{% if request.GET.kickedUsername is not None %}
-{% include "commons/toast.html" with toast_msg="Hai rimosso "|add:request.GET.kickedUsername %}
-{% endif %}
-{% if request.GET.created %}
-{% include "commons/toast.html" with toast_msg="Hai creato il clan" %}
-{% endif %}
 {% endblock %}

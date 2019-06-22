@@ -7,30 +7,42 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm):
         model = User
-        fields = ('username', )
+        fields = ['username']
 
 
 class CustomUserChangeForm(UserChangeForm):
 
     class Meta(UserChangeForm):
         model = User
-        fields = ('username', 'clan')
+        fields = ['username', 'clan']
 
 
 class ClanForm(forms.ModelForm):
+
     class Meta:
         model = Clan
         fields = ['name', 'maxMembers']
 
-# TODO: limita selezione enemy e ally a membri del clan corretto
+
 class BattleForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['enemy'].queryset = self.instance.war.enemies.all()
+        self.fields['enemy'].empty_label = None
+
     class Meta:
         model = Battle
-        fields = ['enemy', 'allyDestruction', 'enemyDestruction', 'allyVictory']
+        exclude = ['ally', 'war']
 
-class BattleFormMaster(forms.ModelForm):
+
+class BattleFormMaster(BattleForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['ally'].queryset = self.instance.war.allyClan.members.all()
+        self.fields['ally'].empty_label = None
+
     class Meta:
         model = Battle
-        fields = ['ally', 'enemy', 'allyDestruction', 'enemyDestruction', 'allyVictory']
-
-
+        exclude = ['war']

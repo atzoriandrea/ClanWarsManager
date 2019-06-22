@@ -25,9 +25,9 @@
                 Vinta!
             {% endif %}
             {% if battle.ally == user or battle.ally.clan.clanMaster == user %}
-                    <form method="POST" class="secondary-content" action="{% url 'battles_delete' battle.pk %}">
+                    <form method="POST" class="secondary-content" action="{% url 'battles_update' battle.pk %}">
                         {% csrf_token %}
-                        <a href="#!" class=" waves-effect"><i class="material-icons">edit</i></a>
+                        <a class=" waves-effect" onclick="this.parentNode.submit()"><i class="material-icons">edit</i></a>
                     </form>
                     <form method="POST" class="secondary-content" action="{% url 'battles_delete' battle.pk %}">
                         {% csrf_token %}
@@ -48,5 +48,8 @@
 
     </form>
 
+    {% load toasts %}
+    {% toast_if request.GET.created "Guerra creata" %}
+    {% toast_if request.GET.deleted "Battaglia eliminata" %}
 
 {% endblock %}

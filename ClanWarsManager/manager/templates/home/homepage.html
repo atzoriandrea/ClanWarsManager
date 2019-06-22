@@ -8,4 +8,8 @@
     <a href="{% url 'user_login' %}">Log In</a> |
     <a href="{% url 'user_signup' %}">Registrati</a> |
     <a href="{% url 'clans_list' %}">Visualizza i Clan</a>
+
+    {% load toasts %}
+    {% toast_if request.GET.clanDeleted "Clan eliminato" %}
+
 {% endblock %}

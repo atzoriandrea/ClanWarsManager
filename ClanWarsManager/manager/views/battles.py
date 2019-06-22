@@ -14,7 +14,9 @@ from django.views.generic import (
     UpdateView
 )
 
+
 class BattleCreateView(LoginRequiredMixin, View):
+
     def dispatch(self, request, **kwargs):
         war = get_object_or_404(War, pk=self.kwargs.get("pk"))
         if(request.user.clan != war.allyClan):
@@ -25,10 +27,14 @@ class BattleCreateView(LoginRequiredMixin, View):
         query = urlencode({'created': True})
         return redirect(battle.get_absolute_url() + f"?{query}")
 
+
 class BattleDeleteView(LoginRequiredMixin, DeleteView):
 
-    success_url = reverse_lazy("wars_list") #TODO: riporta a lista battaglie
     model = Battle
+
+    def get_success_url(self):
+        query = urlencode({'deleted': True})
+        return self.object.war.get_absolute_url() + f"?{query}"
 
     def get_object(self):
         battle = super().get_object()
@@ -36,10 +42,10 @@ class BattleDeleteView(LoginRequiredMixin, DeleteView):
             raise PermissionDenied()
         return battle
 
+
 class BattleUpdateView(LoginRequiredMixin, UpdateView):
 
     template_name = "battles/update.html"
-
     context_object_name = "battle"
     model = Battle
 

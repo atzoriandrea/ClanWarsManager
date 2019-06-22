@@ -2,30 +2,30 @@
 
 {% block title %}Clans{% endblock %}
 
-{% block content %}
+  {% block content %}
 
-<h3>Cerca clan</h3>
-<nav>
-  <div class="nav-wrapper">
-    <form>
-      <div class="input-field">
-        <input id="search" type="search" name="q" value="{{request.GET.q}}">
-        <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-        <i class="material-icons">close</i>
-      </div>
-    </form>
-  </div>
-</nav>
-<ul class="collection">
-  {% for clan in clans %}
-    <a class="collection-item waves-effect" href="{{clan.get_absolute_url}}">{{clan.name}}</a>
-  {% endfor %}
-</ul>
-{% include "commons/pagination.html" %}
+  <h3>Cerca clan</h3>
+  <nav>
+    <div class="nav-wrapper">
+      <form>
+        <div class="input-field">
+          <input id="search" type="search" name="q" value="{{request.GET.q}}">
+          <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+          <i class="material-icons">close</i>
+        </div>
+      </form>
+    </div>
+  </nav>
+  <ul class="collection">
+    {% for clan in clans %}
+      <a class="collection-item waves-effect" href="{{clan.get_absolute_url}}">{{clan.name}}</a>
+    {% endfor %}
+  </ul>
+  
+  {% include "commons/pagination.html" %}
+
+  {% load toasts %}
+  {% toast_if request.GET.deleted "Clan eliminato" %}
+
 {% endblock %}
 
-{% block toasts %}
-{% if request.GET.clanDeleted %}
-{% include "commons/toast.html" with toast_msg="Hai eliminato il tuo clan" %}
-{% endif %}
-{% endblock %}
