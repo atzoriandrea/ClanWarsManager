@@ -1,5 +1,4 @@
 from django.shortcuts import get_object_or_404, redirect
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.http import urlencode
@@ -15,8 +14,10 @@ from django.views.generic import (
 )
 
 
-class BattleCreateView(LoginRequiredMixin, View):
+class BattleCreateView(View):
 
+    http_method_names = ['post']
+    
     def dispatch(self, request, **kwargs):
         war = get_object_or_404(War, pk=self.kwargs.get("pk"))
         if(request.user.clan != war.allyClan):
@@ -28,8 +29,9 @@ class BattleCreateView(LoginRequiredMixin, View):
         return redirect(battle.get_absolute_url() + f"?{query}")
 
 
-class BattleDeleteView(LoginRequiredMixin, DeleteView):
+class BattleDeleteView(DeleteView):
 
+    http_method_names = ['post']
     model = Battle
 
     def get_success_url(self):
@@ -43,7 +45,7 @@ class BattleDeleteView(LoginRequiredMixin, DeleteView):
         return battle
 
 
-class BattleUpdateView(LoginRequiredMixin, UpdateView):
+class BattleUpdateView(UpdateView):
 
     template_name = "battles/update.html"
     context_object_name = "battle"

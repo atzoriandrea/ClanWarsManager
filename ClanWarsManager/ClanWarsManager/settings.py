@@ -70,6 +70,7 @@ TEMPLATES = [
     },
 ]
 
+LOGIN_URL = reverse_lazy('user_login')
 LOGIN_REDIRECT_URL = reverse_lazy('home')
 LOGOUT_REDIRECT_URL = reverse_lazy('home')
 

@@ -1,5 +1,4 @@
 from django.shortcuts import get_object_or_404, redirect
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from ..forms import ClanForm
 from ..models import User, Clan
@@ -27,7 +26,9 @@ class ClanListView(ListView):
         return Clan.objects.all()
 
 
-class ClanDeleteView(LoginRequiredMixin, DeleteView):
+class ClanDeleteView(DeleteView):
+
+    http_method_names = ['post']
 
     def get_success_url(self):
         query = urlencode({'clanDeleted': True})
@@ -59,24 +60,28 @@ class ClanDetailsDispatcherView(View):
         return view(request, **kwargs)
 
 
-class ClanLeaveView(LoginRequiredMixin, View):
+class ClanLeaveView(View):
+
+    http_method_names = ['post']
 
     def dispatch(self, request, **kwargs):
         clan = request.user.clan
-        if clan is None:
-            raise ObjectDoesNotExist()
+        if clan is None or clan.clanMaster == request.user:
+            raise PermissionDenied()
         request.user.clan = None
         request.user.save()
         query = urlencode({'leaved': True})
         return redirect(clan.get_absolute_url() + f"?{query}")
 
 
-class ClanKickView(LoginRequiredMixin, View):
+class ClanKickView(View):
+
+    http_method_names = ['post']
 
     def dispatch(self, request, **kwargs):
         username = self.kwargs.get("username")
         member = get_object_or_404(User, username=username)
-        if member.clan.clanMaster != request.user:
+        if member.clan.clanMaster != request.user or member == request.user:
             raise PermissionDenied()
         clan = member.clan
         member.clan = None
@@ -85,7 +90,7 @@ class ClanKickView(LoginRequiredMixin, View):
         return redirect(clan.get_absolute_url() + f"?{query}")
 
 
-class ClanUpdateView(LoginRequiredMixin, UpdateView):
+class ClanUpdateView(UpdateView):
 
     template_name = "clans/update.html"
     form_class = ClanForm
@@ -93,14 +98,15 @@ class ClanUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_object(self):
         clan = self.request.user.clan
-        if self.request.user == clan.clanMaster:
-            return clan
-        else:
+        if self.request.user != clan.clanMaster:
             raise PermissionDenied()
+        return clan
 
 
-class ClanCreateView(LoginRequiredMixin, View):
+class ClanCreateView(View):
 
+    http_method_names = ['post']
+    
     def dispatch(self, request, **kwargs):
         if request.user.clan is not None:
             raise PermissionDenied()
@@ -112,8 +118,10 @@ class ClanCreateView(LoginRequiredMixin, View):
         return redirect(clan.get_absolute_url() + f"?{query}")
 
 
-class ClanJoinView(LoginRequiredMixin, View):
+class ClanJoinView(View):
 
+    http_method_names = ['post']
+    
     def dispatch(self, request, pk, **kwargs):
         clan = get_object_or_404(Clan, pk=pk)
         if request.user.clan is not None or clan.members.count() >= clan.maxMembers:

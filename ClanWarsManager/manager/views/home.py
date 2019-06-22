@@ -4,7 +4,7 @@ from django.views.generic import View
 
 
 class HomeDispatcherView(View):
-
+    
     def dispatch(self, request, **kwargs):
         if request.user.is_authenticated and request.user.clan is not None:
             return WarListView.as_view()(request, **kwargs)

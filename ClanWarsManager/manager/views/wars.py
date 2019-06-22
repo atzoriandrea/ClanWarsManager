@@ -1,5 +1,4 @@
 from django.shortcuts import get_object_or_404, redirect
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.http import urlencode
@@ -14,25 +13,29 @@ from django.views.generic import (
 from django.db import transaction
 
 
-class WarListView(LoginRequiredMixin, ListView):
+class WarListView(ListView):
 
     template_name = 'wars/list.html'
     paginate_by = 10
     context_object_name = "wars"
 
     def get_queryset(self):
+        if self.request.user.clan is None:
+            raise PermissionDenied()
         return self.request.user.clan.wars.all()
 
 
-class WarCreateView(LoginRequiredMixin, View):
+class WarCreateView(View):
+
+    http_method_names = ['post']
 
     def dispatch(self, request, pk, **kwargs):
-        myClan = request.user.clan
-        if myClan is not None and myClan.clanMaster == request.user:
+        allyClan = request.user.clan
+        if allyClan is not None and allyClan.clanMaster == request.user:
             enemyClan = get_object_or_404(Clan, pk=pk)
-            if (myClan != enemyClan):
+            if (allyClan != enemyClan):
                 with transaction.atomic():
-                    war = War.objects.create(allyClan=myClan, enemyClanName=enemyClan.name, date=timezone.now())
+                    war = War.objects.create(allyClan=allyClan, enemyClanName=enemyClan.name, date=timezone.now())
                     war.save()
                     for enemy in enemyClan.members.all():
                         newEnemySnapshot = EnemyUserSnapshot.objects.create(username=enemy.username, war=war)
@@ -42,8 +45,9 @@ class WarCreateView(LoginRequiredMixin, View):
         raise PermissionDenied()
 
 
-class WarDeleteView(LoginRequiredMixin, DeleteView):
+class WarDeleteView(DeleteView):
 
+    http_method_names = ['post']
     model = War
 
     def get_success_url(self):
@@ -57,7 +61,7 @@ class WarDeleteView(LoginRequiredMixin, DeleteView):
         return war
 
 
-class WarDetailView(LoginRequiredMixin, DetailView):
+class WarDetailView(DetailView):
 
     template_name = "wars/details.html"
     context_object_name = "war"

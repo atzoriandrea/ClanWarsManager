@@ -1,4 +1,5 @@
 from django import template
+from django.utils.html import mark_safe
 from .scripting import onload
 
 register = template.Library()
@@ -11,5 +12,4 @@ def toast(message, icon=None):
 
 @register.simple_tag
 def toast_if(condition, message, icon=None):
-    if condition:
-        return toast(message, icon)
+    return mark_safe(toast(message, icon) if condition else "")
