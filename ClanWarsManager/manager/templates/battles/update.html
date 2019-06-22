@@ -2,36 +2,36 @@
 
 {% block content %}
 
-    <h2>Battaglia</h2>
+{% load postlinks %}
+{% hiddenform %}
+{% url 'battles_delete' battle.pk as deleteBattleUrl %}
 
-    <nav>
-        <div class="nav-wrapper">
-            <div class="col s12">
+<h2>Battaglia</h2>
+
+<nav>
+    <div class="nav-wrapper">
+        <div class="col s12">
             <a href="{{battle.war.get_absolute_url}}" class="breadcrumb">Guerra</a>
             <a href="." class="breadcrumb">Battaglia</a>
-            </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <form method="POST">
-        {% csrf_token %}
-        {{form.as_p}}
-        <p>
-            <input type="submit" value="Save"/>
-        </p>
-    </form>
+<form method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <a class="btn-floating btn-large waves-effect waves-light right" {% submitParentOnClick %}>
+        <i class="material-icons">save</i>
+    </a>
+</form>
 
 
 
-    <form method="POST" action="{% url 'battles_delete' battle.pk %}">
-        {% csrf_token %}
-        <p>
-            <input type="submit" value="Cancella Battaglia"/>
-        </p>
-    </form>
+<a class="btn-floating btn-large waves-effect waves-light right" {% submitOnClick deleteBattleUrl %}>
+    <i class="material-icons">delete</i>
+</a>
 
-{% load toasts %}    
+{% load toasts %}
 {% toast_if request.GET.created "Hai creato la battaglia" %}
 
 {% endblock %}
-

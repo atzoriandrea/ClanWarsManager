@@ -1,0 +1,10 @@
+<script>
+$(function () {
+    {% if icon %}
+    const html = "<span>{{message}}</span><i class='material-icons'>{{icon}}</i>"
+    {% else %}
+    const html = "<span>{{message}}</span>"
+    {% endif %}
+    M.toast({ html: html })
+})
+</script>

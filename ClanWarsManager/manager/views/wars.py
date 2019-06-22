@@ -29,7 +29,7 @@ class WarCreateView(View):
 
     http_method_names = ['post']
 
-    def dispatch(self, request, pk, **kwargs):
+    def post(self, request, pk, **kwargs):
         allyClan = request.user.clan
         if allyClan is not None and allyClan.clanMaster == request.user:
             enemyClan = get_object_or_404(Clan, pk=pk)

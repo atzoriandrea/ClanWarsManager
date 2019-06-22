@@ -36,10 +36,9 @@ class ClanDeleteView(DeleteView):
 
     def get_object(self):
         clan = self.request.user.clan
-        if self.request.user == clan.clanMaster:
-            return clan
-        else:
+        if clan is None or self.request.user != clan.clanMaster:
             raise PermissionDenied()
+        return clan
 
 
 class ClanDetailsView(DetailView):
@@ -64,7 +63,7 @@ class ClanLeaveView(View):
 
     http_method_names = ['post']
 
-    def dispatch(self, request, **kwargs):
+    def post(self, request, **kwargs):
         clan = request.user.clan
         if clan is None or clan.clanMaster == request.user:
             raise PermissionDenied()
@@ -78,10 +77,10 @@ class ClanKickView(View):
 
     http_method_names = ['post']
 
-    def dispatch(self, request, **kwargs):
+    def post(self, request, **kwargs):
         username = self.kwargs.get("username")
         member = get_object_or_404(User, username=username)
-        if member.clan.clanMaster != request.user or member == request.user:
+        if member.clan is None or member.clan.clanMaster != request.user or member == request.user:
             raise PermissionDenied()
         clan = member.clan
         member.clan = None
@@ -98,7 +97,7 @@ class ClanUpdateView(UpdateView):
 
     def get_object(self):
         clan = self.request.user.clan
-        if self.request.user != clan.clanMaster:
+        if clan is None or self.request.user != clan.clanMaster:
             raise PermissionDenied()
         return clan
 
@@ -107,7 +106,7 @@ class ClanCreateView(View):
 
     http_method_names = ['post']
     
-    def dispatch(self, request, **kwargs):
+    def post(self, request, **kwargs):
         if request.user.clan is not None:
             raise PermissionDenied()
         clan = Clan.objects.create(name='', clanMaster=request.user)
@@ -122,7 +121,7 @@ class ClanJoinView(View):
 
     http_method_names = ['post']
     
-    def dispatch(self, request, pk, **kwargs):
+    def post(self, request, pk, **kwargs):
         clan = get_object_or_404(Clan, pk=pk)
         if request.user.clan is not None or clan.members.count() >= clan.maxMembers:
             raise PermissionDenied()

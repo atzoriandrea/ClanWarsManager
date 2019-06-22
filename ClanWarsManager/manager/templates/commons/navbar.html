@@ -1,5 +1,10 @@
 {% load static %}
 
+{% load postlinks %}
+{% hiddenform %}
+{% url 'clans_create' as createClanUrl %}
+
+
 <nav>
     <div class="nav-wrapper">
         <a href="{% url 'home' %}" class="brand-logo">
@@ -25,7 +30,7 @@
                     Il mio clan
                 </a>
                 {% else %}
-                <a href="{% url 'clans_create' %}">
+                <a {% submitOnClick createClanUrl %}>
                     <i class="material-icons left">add</i>
                     Crea clan
                 </a>
@@ -104,7 +109,7 @@
             Il mio clan
         </a>
         {% else %}
-        <a href="{% url 'clans_create' %}" class="waves-effect">
+        <a {% submitOnClick createClanUrl %} class="waves-effect">
             <i class="material-icons left">add</i>
             Crea clan
         </a>

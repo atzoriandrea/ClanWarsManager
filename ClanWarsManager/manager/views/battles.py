@@ -18,7 +18,7 @@ class BattleCreateView(View):
 
     http_method_names = ['post']
     
-    def dispatch(self, request, **kwargs):
+    def post(self, request, **kwargs):
         war = get_object_or_404(War, pk=self.kwargs.get("pk"))
         if(request.user.clan != war.allyClan):
             raise PermissionDenied()

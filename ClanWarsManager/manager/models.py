@@ -35,6 +35,12 @@ class War(models.Model):
     def get_absolute_url(self):
         return reverse("wars_details", kwargs={'pk': self.pk})
 
+    def won(self):
+        battles = self.battles.all()
+        #TODO: Fix
+        #return battles.aggregate(sum=models.Sum('allyDestruction'))["sum"] > battles.aggregate(sum=models.Sum('enemyDestruction'))["sum"]
+        return True
+
     def __str__(self):
         return f"{self.allyClan.name} vs {self.enemyClanName} @{self.date}"
 

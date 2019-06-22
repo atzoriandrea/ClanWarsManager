@@ -4,9 +4,3 @@ $(document).ready(function () {
         coverTrigger: false
     });
 });
-
-function toast(message, icon = null) {
-    const msgHtml = `<span>${message}</span>`;
-    const msgIcon = icon == null ? '' : `<i class='material-icons'>${icon}</i>`
-    M.toast({ html: `${msgHtml}${msgIcon}`});
-}
