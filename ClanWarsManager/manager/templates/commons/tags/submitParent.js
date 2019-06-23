@@ -1,1 +1,0 @@
-this.parentNode.submit();

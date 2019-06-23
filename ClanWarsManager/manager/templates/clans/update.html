@@ -3,55 +3,53 @@
 {% block title %}Modifica Clan{% endblock %}
 
 {% block content %}
-    {% load postlinks %}
-    {% hiddenform %}
+{% load postlinks %}
+{% hiddenform %}
 
-    <h3>Modifica il tuo clan</h3>
-    <form method="POST">
-        {% csrf_token %}
-        {{form.as_p}}
-            <a class="waves-effect waves-light btn"  {% submitParentOnClick %} >
-                <i class="large material-icons">save</i>
+{% load materializecss %}
+
+<section>
+<h3>Modifica il tuo clan</h3>
+<form method="POST">
+    {% csrf_token %}
+    {{form|materializecss}}
+    <button class="btn-floating btn-large waves-effect waves-light right tooltipped" data-position="bottom" data-tooltip="Salva modifiche" type="submit">
+        <i class="material-icons">save</i>
+    </button>
+</form>
+{% url 'clans_delete' as deleteUrl %}
+<a class="waves-effect waves-light btn-large red" {% submitOnClick deleteUrl %}>
+    <i class="material-icons left">delete</i>
+    Elimina clan
+</a>
+</section>
+
+<section>
+<h4>Membri</h4>
+<ul class="collection">
+    {% for member in clan.members.all %}
+    <li class="collection-item">
+        <div>
+            {{member.username}}
+            {% if clan.clanMaster == member%}
+            <span class="chip">
+                Master
+            </span>
+            {% endif %}
+            {% if clan.clanMaster != member %}
+            {% url 'clans_kick' member.username as kickUrl %}
+            <a class="secondary-content waves-effect waves-circle tooltipped" data-position="bottom" data-tooltip="Rimuovi membro" {% submitOnClick kickUrl %}>
+                <i class="material-icons red-text">delete</i>
             </a>
-    </form>
+            {% endif %}
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+</section>
 
-    <h4>Membri:</h4>
-    <ul class="collection">
-        {% for member in clan.members.all %}
-            <li class="collection-item">
-            <div>
-
-                {{member.username}}
-                {% if clan.clanMaster == member%}
-                    <span class="badge">
-                        Clan Master
-                    </span>
-                {% endif %}
-                {% if clan.clanMaster != member %}
-
-                <form method="POST" class="secondary-content" action="{% url 'clans_kick' member.username%}">
-                    {% csrf_token %}
-
-                    <a class=" waves-effect waves-circle"  {% submitParentOnClick %}>
-                        <i class="material-icons">delete</i>
-                    </a>
-                </form>
-            </div>
-
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
-
-    <form method="POST" action="{% url 'clans_delete'%}">
-        {% csrf_token %}
-            <a class="waves-effect waves-light btn"  {% submitParentOnClick %}>
-                Cancella Clan
-            </a>
-    </form>
-
-    {% load toasts %}
-    {% toast_if request.GET.kicked "Utente rimosso" %}
-    {% toast_if request.GET.created "Hai creato il clan" %}
+{% load toasts %}
+{% toast_if request.GET.kicked "Utente rimosso" %}
+{% toast_if request.GET.created "Hai creato il clan" %}
 
 {% endblock %}

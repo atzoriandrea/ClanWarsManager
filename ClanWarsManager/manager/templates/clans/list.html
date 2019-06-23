@@ -16,11 +16,11 @@
       </form>
     </div>
   </nav>
-  <ul class="collection">
+  <div class="collection">
     {% for clan in clans %}
       <a class="collection-item waves-effect" href="{{clan.get_absolute_url}}">{{clan.name}}</a>
     {% endfor %}
-  </ul>
+  </div>
   
   {% include "commons/pagination.html" %}
 

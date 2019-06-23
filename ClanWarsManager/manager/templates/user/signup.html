@@ -5,15 +5,14 @@
 
 {% block content %}
 
-{% load postlinks %}
-{% hiddenform %}
+{% load materializecss %}
 
-  <h2>Registrati</h2>
-  <form method="POST">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <a class="waves-effect waves-light btn"  {% submitParentOnClick %}>
-          Registrati
-      </a>
-  </form>
+<h2>Registrati</h2>
+<form method="POST">
+  {% csrf_token %}
+  {{ form|materializecss }}
+  <button class="waves-effect waves-light btn" type="submit">
+    Registrati
+  </button>
+</form>
 {% endblock %}

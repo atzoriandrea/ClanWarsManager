@@ -4,34 +4,38 @@
 
 {% block content %}
 
-    {% load postlinks %}
-    {% hiddenform %}
-    {% url 'battles_delete' battle.pk as deleteBattleUrl %}
+{% load postlinks %}
+{% hiddenform %}
 
-    <h2>Battaglia</h2>
 
-    <nav>
-        <div class="nav-wrapper">
-            <div class="col s12">
-                <a href="{{battle.war.get_absolute_url}}" class="breadcrumb">Guerra</a>
-                <a href="." class="breadcrumb">Battaglia</a>
-            </div>
+{% load materializecss %}
+
+<h2>Battaglia</h2>
+
+<nav>
+    <div class="nav-wrapper">
+        <div class="col s12">
+            <a href="{{battle.war.get_absolute_url}}" class="breadcrumb">Guerra</a>
+            <a href="." class="breadcrumb">Battaglia</a>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <form method="POST">
-        {% csrf_token %}
-        {{form.as_p}}
-        <a class="btn-floating btn-large waves-effect waves-light right" {% submitParentOnClick %}>
-            <i class="material-icons">save</i>
-        </a>
-    </form>
+<form method="POST">
+    {% csrf_token %}
+    {{form|materializecss}}
+    <button class="btn-floating btn-large waves-effect waves-light right tooltipped" data-position="bottom" data-tooltip="Salva modifiche" type="submit">
+        <i class="material-icons">save</i>
+    </button>
+</form>
 
-    <a class="btn-floating btn-large waves-effect waves-light right" {% submitOnClick deleteBattleUrl %}>
-        <i class="material-icons">delete</i>
-    </a>
+{% url 'battles_delete' battle.pk as deleteBattleUrl %}
+<a class="waves-effect waves-light btn-large red" {% submitOnClick deleteBattleUrl %}>
+    <i class="material-icons left">delete</i>
+    Elimina battaglia
+</a>
 
-    {% load toasts %}
-    {% toast_if request.GET.created "Hai creato la battaglia" %}
+{% load toasts %}
+{% toast_if request.GET.created "Hai creato la battaglia" %}
 
 {% endblock %}
