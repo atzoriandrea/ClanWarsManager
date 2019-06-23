@@ -28,7 +28,7 @@ class BattleForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['enemy'].queryset = self.instance.war.enemies.all()
+        self.fields['enemy'].queryset = self.instance.war.enemies().all()
         self.fields['enemy'].empty_label = None
 
     class Meta:
@@ -40,7 +40,7 @@ class BattleFormMaster(BattleForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['ally'].queryset = self.instance.war.allyClan.members.all()
+        self.fields['ally'].queryset = self.instance.war.allies().all()
         self.fields['ally'].empty_label = None
 
     class Meta:

@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.http import urlencode
 from ..forms import BattleForm, BattleFormMaster
-from ..models import War, EnemyUserSnapshot, Clan, Battle
+from ..models import War, UserSnapshot, Clan, Battle
 from django.core.exceptions import PermissionDenied
 from django.views.generic import (
     View,
@@ -20,10 +20,14 @@ class BattleCreateView(View):
     
     def post(self, request, **kwargs):
         war = get_object_or_404(War, pk=self.kwargs.get("pk"))
-        if(request.user.clan != war.allyClan):
-            raise PermissionDenied()
-        firstEnemy = war.enemies.first()
-        battle = Battle.objects.create(ally=request.user, enemy=firstEnemy, war=war)
+        ally = war.getAlly(request.user)
+        if(ally is None):
+            if (request.user == war.allyClan.clanMaster):
+                ally = war.allies().first()
+            else:
+                raise PermissionDenied()
+        firstEnemy = war.enemies().first()
+        battle = Battle.objects.create(ally=ally, enemy=firstEnemy, war=war)
         battle.save()
         query = urlencode({'created': True})
         return redirect(battle.get_absolute_url() + f"?{query}")
@@ -59,6 +63,6 @@ class BattleUpdateView(UpdateView):
 
     def get_object(self):
         battle = super().get_object()
-        if self.request.user != battle.war.allyClan.clanMaster and self.request.user != battle.ally:
+        if self.request.user != battle.war.allyClan.clanMaster and battle.war.getAlly(self.request.user) is None:
             raise PermissionDenied()
         return battle

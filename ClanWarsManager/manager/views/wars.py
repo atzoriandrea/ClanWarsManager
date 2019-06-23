@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.http import urlencode
-from ..models import War, EnemyUserSnapshot, Clan
+from ..models import War, UserSnapshot, Clan
 from django.core.exceptions import PermissionDenied
 from django.views.generic import (
     View,
@@ -38,8 +38,12 @@ class WarCreateView(View):
                     war = War.objects.create(allyClan=allyClan, enemyClanName=enemyClan.name, date=timezone.now())
                     war.save()
                     for enemy in enemyClan.members.all():
-                        newEnemySnapshot = EnemyUserSnapshot.objects.create(username=enemy.username, war=war)
+                        newEnemySnapshot = UserSnapshot.objects.create(username=enemy.username, war=war,isAlly=False)
                         newEnemySnapshot.save()
+
+                    for ally in allyClan.members.all():
+                        newAllySnapshot = UserSnapshot.objects.create(username=ally.username, war=war,isAlly=True)
+                        newAllySnapshot.save()
                     query = urlencode({'created': True})
                     return redirect(war.get_absolute_url() + f"?{query}")
         raise PermissionDenied()
@@ -66,6 +70,12 @@ class WarDetailView(DetailView):
     template_name = "wars/details.html"
     context_object_name = "war"
     model = War
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["canAddBattle"] = self.object.canAddBattle(self.request.user)
+        return context
+
 
     def get_object(self):
         war = super().get_object()

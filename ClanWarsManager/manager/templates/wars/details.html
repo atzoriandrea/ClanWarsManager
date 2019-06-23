@@ -43,10 +43,11 @@
     </li>
     {% endfor %}
 </ul>
-
-{% url 'wars_addbattle' war.pk as addBattleUrl %}
-<a class="btn-floating btn-large waves-effect waves-light right tooltipped" data-position="bottom" data-tooltip="Aggiungi battaglia" {% submitOnClick addBattleUrl %}><i
-        class="material-icons">add</i></a>
+{% if canAddBattle %}
+    {% url 'wars_addbattle' war.pk as addBattleUrl %}
+    <a class="btn-floating btn-large waves-effect waves-light right tooltipped" data-position="bottom" data-tooltip="Aggiungi battaglia" {% submitOnClick addBattleUrl %}><i
+            class="material-icons">add</i></a>
+{% endif %}
 
 {% load toasts %}
 {% toast_if request.GET.created "Guerra creata" %}

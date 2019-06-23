@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.shortcuts import reverse
-
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
@@ -41,14 +41,32 @@ class War(models.Model):
         #return battles.aggregate(sum=models.Sum('allyDestruction'))["sum"] > battles.aggregate(sum=models.Sum('enemyDestruction'))["sum"]
         return True
 
+    def getAlly(self,user):
+        try:
+            return self.allies().get(username=user.username)
+        except ObjectDoesNotExist:
+             return None
+
+    def canAddBattle(self,user):
+        return  self.allyClan.clanMaster==user or self.getAlly(user) is not None
+
+
+    def enemies(self):
+        return self.warriors.filter(isAlly=False)
+
+    def allies(self):
+        return self.warriors.filter(isAlly=True)
+
     def __str__(self):
         return f"{self.allyClan.name} vs {self.enemyClanName} @{self.date}"
 
 
-class EnemyUserSnapshot(models.Model):
+class UserSnapshot(models.Model):
 
     username = models.TextField(max_length=30)
-    war = models.ForeignKey(War, on_delete=models.CASCADE, related_name="enemies", null=False, blank=False)
+    isAlly = models.BooleanField()
+    war = models.ForeignKey(War, on_delete=models.CASCADE, related_name="warriors", null=False, blank=False)
+
 
     def __str__(self):
         return f"{self.username} @ {str(self.war)}"
@@ -56,8 +74,8 @@ class EnemyUserSnapshot(models.Model):
 
 class Battle(models.Model):
 
-    ally = models.ForeignKey(User, on_delete=models.CASCADE, related_name="battles", null=False, blank=False)
-    enemy = models.ForeignKey(EnemyUserSnapshot, on_delete=models.CASCADE, related_name="battles", null=False, blank=False)
+    ally = models.ForeignKey(UserSnapshot, on_delete=models.CASCADE, related_name="+", null=False, blank=False)
+    enemy = models.ForeignKey(UserSnapshot, on_delete=models.CASCADE, related_name="+", null=False, blank=False)
     allyDestruction = models.SmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
     enemyDestruction = models.SmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
     allyVictory = models.BooleanField(default=False)

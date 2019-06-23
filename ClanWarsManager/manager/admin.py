@@ -3,7 +3,7 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin, Group
 
-from .models import User, Clan, War, Battle, EnemyUserSnapshot
+from .models import User, Clan, War, Battle, UserSnapshot
 
 class CustomUserAdmin(UserAdmin):
     
@@ -20,4 +20,4 @@ admin.site.unregister(Group)
 admin.site.register(Clan)
 admin.site.register(War)
 admin.site.register(Battle)
-admin.site.register(EnemyUserSnapshot)
+admin.site.register(UserSnapshot)
