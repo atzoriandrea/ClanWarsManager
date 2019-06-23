@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import *
+from ..models import *
 from django.utils import timezone
 # Create your tests here.
 
