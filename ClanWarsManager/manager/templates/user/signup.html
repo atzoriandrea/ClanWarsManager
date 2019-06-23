@@ -1,13 +1,19 @@
 <!-- templates/signup.html -->
 {% extends 'base.html' %}
 
-{% block title %}Sign Up{% endblock %}
+{% block title %}Registrati{% endblock %}
 
 {% block content %}
-  <h2>Sign up</h2>
+
+{% load postlinks %}
+{% hiddenform %}
+
+  <h2>Registrati</h2>
   <form method="POST">
       {% csrf_token %}
       {{ form.as_p }}
-      <button type="submit">Sign up</button>
+      <a class="waves-effect waves-light btn"  {% submitParentOnClick %}>
+          Registrati
+      </a>
   </form>
 {% endblock %}

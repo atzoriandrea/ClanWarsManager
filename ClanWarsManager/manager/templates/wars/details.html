@@ -1,67 +1,65 @@
 {% extends 'base.html' %}
 
-{% block title %}Guerra {{war}} {% endblock %}
+{% block title %}{{war}} {% endblock %}
 
 {% block content %}
 
-{% load postlinks %}
-{% hiddenform %}
+    {% load postlinks %}
+    {% hiddenform %}
 
-<h2>Guerra </h2>
-<h4>{{war.date}}</h4>
-<h5>Enemy: {{war.enemyClanName}}</h5>
-{% if war.allyClan.clanMaster == user %}
-<form method="POST" id="deleteForm" action="{% url 'wars_delete' war.pk %}">
-    {% csrf_token %}
-
-    <a class="waves-effect waves-light btn-large" {% submitParentOnClick %}><i
-            class="material-icons left">delete</i>Elimina War</a>
-
-</form>
-{% endif %}
-<!-- <p>Ally vs Enemy | Ally Destruction % | Enemy Destruction % | Result</p> -->
-<ul class="collection with-header">
-    <li class="collection-header">
-        <h5>Nome | Distruzione</h5>
-    </li>
-    {% for battle in war.battles.all %}
-    <li class="collection-item">
-        <div>{{battle.ally}} vs {{battle.enemy.username}} | {{battle.allyDestruction}}% | {{battle.enemyDestruction}}% |
-            {% if battle.allyVictory %}
-            <div class="chip">
-                Vinta
+    <h2>Guerra</h2>
+    <h4>{{war.date}}</h4>
+    <h5>Nemico: {{war.enemyClanName}}</h5>
+    {% if war.allyClan.clanMaster == user %}
+    <form method="POST" id="deleteForm" action="{% url 'wars_delete' war.pk %}">
+        {% csrf_token %}
+        <a class="waves-effect waves-light btn-large" {% submitParentOnClick %}><i
+                class="material-icons left">delete</i>Elimina Guerra</a>
+    </form>
+    {% endif %}
+    <!-- <p>Ally vs Enemy | Ally Destruction % | Enemy Destruction % | Result</p> -->
+    <ul class="collection with-header">
+        <li class="collection-header">
+            <h5>Nome | Distruzione</h5>
+        </li>
+        {% for battle in war.battles.all %}
+        <li class="collection-item">
+            <div>{{battle.ally}} vs {{battle.enemy.username}} | {{battle.allyDestruction}}% | {{battle.enemyDestruction}}% |
+                {% if battle.allyVictory %}
+                <div class="chip">
+                    Vinta
+                </div>
+                {% endif %}
+                {% if battle.ally == user or battle.ally.clan.clanMaster == user %}
+                <form method="POST" class="secondary-content" action="{% url 'battles_update' battle.pk %}">
+                    {% csrf_token %}
+                    <a class=" waves-effect waves-circle" {% submitParentOnClick %}>
+                        <i class="material-icons">edit</i>
+                    </a>
+                </form>
+                <form method="POST" class="secondary-content" action="{% url 'battles_delete' battle.pk %}">
+                    {% csrf_token %}
+                    <a class=" waves-effect waves-circle" {% submitParentOnClick %}>
+                        <i class="material-icons">delete</i>
+                    </a>
+                </form>
+                {% endif %}
             </div>
-            {% endif %}
-            {% if battle.ally == user or battle.ally.clan.clanMaster == user %}
-            <form method="POST" class="secondary-content" action="{% url 'battles_update' battle.pk %}">
-                {% csrf_token %}
-                <a class=" waves-effect waves-circle" {% submitParentOnClick %}>
-                    <i class="material-icons">edit</i>
-                </a>
-            </form>
-            <form method="POST" class="secondary-content" action="{% url 'battles_delete' battle.pk %}">
-                {% csrf_token %}
-                <a class=" waves-effect waves-circle" {% submitParentOnClick %}>
-                    <i class="material-icons">delete</i>
-                </a>
-            </form>
-            {% endif %}
-        </div>
-    </li>
+        </li>
 
-    {% endfor %}
-</ul>
+        {% endfor %}
+    </ul>
 
-<form method="POST" id="addForm" action="{% url 'wars_addbattle' war.pk %}">
-    {% csrf_token %}
+    <form method="POST" id="addForm" action="{% url 'wars_addbattle' war.pk %}">
+        {% csrf_token %}
 
-    <a class="btn-floating btn-large waves-effect waves-light right" {% submitParentOnClick %}><i
-            class="material-icons">add</i></a>
+        <a class="btn-floating btn-large waves-effect waves-light right" {% submitParentOnClick %}><i
+                class="material-icons">add</i></a>
 
-</form>
+    </form>
 
-{% load toasts %}
-{% toast_if request.GET.created "Guerra creata" %}
-{% toast_if request.GET.deleted "Battaglia eliminata" %}
+    {% load toasts %}
+    {% toast_if request.GET.created "Guerra creata" %}
+    {% toast_if request.GET.deleted "Battaglia eliminata" %}
 
 {% endblock %}

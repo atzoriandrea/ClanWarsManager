@@ -1,37 +1,37 @@
 {% extends "base.html" %}
 
+{% block title %}Battaglia{% endblock %}
+
 {% block content %}
 
-{% load postlinks %}
-{% hiddenform %}
-{% url 'battles_delete' battle.pk as deleteBattleUrl %}
+    {% load postlinks %}
+    {% hiddenform %}
+    {% url 'battles_delete' battle.pk as deleteBattleUrl %}
 
-<h2>Battaglia</h2>
+    <h2>Battaglia</h2>
 
-<nav>
-    <div class="nav-wrapper">
-        <div class="col s12">
-            <a href="{{battle.war.get_absolute_url}}" class="breadcrumb">Guerra</a>
-            <a href="." class="breadcrumb">Battaglia</a>
+    <nav>
+        <div class="nav-wrapper">
+            <div class="col s12">
+                <a href="{{battle.war.get_absolute_url}}" class="breadcrumb">Guerra</a>
+                <a href="." class="breadcrumb">Battaglia</a>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<form method="POST">
-    {% csrf_token %}
-    {{form.as_p}}
-    <a class="btn-floating btn-large waves-effect waves-light right" {% submitParentOnClick %}>
-        <i class="material-icons">save</i>
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <a class="btn-floating btn-large waves-effect waves-light right" {% submitParentOnClick %}>
+            <i class="material-icons">save</i>
+        </a>
+    </form>
+
+    <a class="btn-floating btn-large waves-effect waves-light right" {% submitOnClick deleteBattleUrl %}>
+        <i class="material-icons">delete</i>
     </a>
-</form>
 
-
-
-<a class="btn-floating btn-large waves-effect waves-light right" {% submitOnClick deleteBattleUrl %}>
-    <i class="material-icons">delete</i>
-</a>
-
-{% load toasts %}
-{% toast_if request.GET.created "Hai creato la battaglia" %}
+    {% load toasts %}
+    {% toast_if request.GET.created "Hai creato la battaglia" %}
 
 {% endblock %}
