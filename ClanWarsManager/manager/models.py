@@ -41,13 +41,13 @@ class War(models.Model):
         #return battles.aggregate(sum=models.Sum('allyDestruction'))["sum"] > battles.aggregate(sum=models.Sum('enemyDestruction'))["sum"]
         return True
 
-    def getAlly(self,user):
+    def getAlly(self, user):
         try:
             return self.allies().get(username=user.username)
         except ObjectDoesNotExist:
-             return None
+            return None
 
-    def canAddBattle(self,user):
+    def canAddBattle(self, user):
         return  self.allyClan.clanMaster==user or self.getAlly(user) is not None
 
 

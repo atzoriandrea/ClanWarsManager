@@ -33,7 +33,7 @@ class WarCreateView(View):
         allyClan = request.user.clan
         if allyClan is not None and allyClan.clanMaster == request.user:
             enemyClan = get_object_or_404(Clan, pk=pk)
-            if (allyClan != enemyClan):
+            if allyClan != enemyClan:
                 with transaction.atomic():
                     war = War.objects.create(allyClan=allyClan, enemyClanName=enemyClan.name, date=timezone.now())
                     war.save()
