@@ -5,11 +5,11 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   id="svg8"
-   version="1.1"
-   viewBox="0 0 199.1774 39.799118"
+   width="19.91774cm"
    height="3.979912cm"
-   width="19.91774cm">
+   viewBox="0 0 199.1774 39.799118"
+   version="1.1"
+   id="svg8">
   <defs
      id="defs2" />
   <metadata
@@ -25,19 +25,45 @@
     </rdf:RDF>
   </metadata>
   <g
-     transform="translate(-10.411299,-247.10046)"
-     id="layer1">
-    <text
+     style="fill:#ffffff"
+     id="layer1"
+     transform="translate(-10.411299,-247.10046)">
+    <g
        id="text12"
-       y="278.26755"
-       x="7.7445903"
-       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26458332;"
-       xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.39999962px;font-family:'Heroes Legend';-inkscape-font-specification:'Heroes Legend';fill:#ffffff;stroke-width:0.26458332;"
-         y="278.26755"
-         x="7.7445903"
-         id="tspan10"><tspan
-   id="tspan14"
-   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Heroes Legend Hollow';-inkscape-font-specification:'Heroes Legend Hollow';fill:#ffffff;">Clan</tspan>Wars</tspan></text>
+       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       aria-label="ClanWars">
+      <path
+         id="path19"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Heroes Legend Hollow';-inkscape-font-specification:'Heroes Legend Hollow';fill:#ffffff"
+         d="m 30.750938,272.81052 q -8.123535,0.91777 -9.686231,-4.08037 -1.550293,-4.99815 2.232422,-8.83047 3.795117,-3.84473 10.852051,-3.21221 l 1.451074,-6.90811 q -13.779004,-1.6123 -20.773926,10.30635 -3.187402,6.66006 -1.761132,11.98067 3.162597,8.43359 16.383496,6.84609 z m 2.827734,-2.57969 -2.282031,10.71562 q -16.544727,1.98438 -20.352246,-8.18554 -1.6743165,-6.23838 1.909961,-13.71699 7.788672,-13.25811 25.437206,-11.19932 l -2.368847,11.24892 q -7.974707,-0.73173 -10.926465,2.26963 -2.951758,2.98897 -1.872754,6.46162 1.079004,3.47266 10.455176,2.40606 z" />
+      <path
+         id="path21"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Heroes Legend Hollow';-inkscape-font-specification:'Heroes Legend Hollow';fill:#ffffff"
+         d="m 44.790391,254.25661 q -1.984375,-0.062 -5.692676,0.22324 -0.917773,4.93614 -5.568652,24.92871 8.68164,0.27285 14.213086,-0.24804 0.979785,-2.43086 1.475879,-5.22139 -2.59209,0.0744 -8.669239,0.22324 z m 2.740918,-2.15801 -4.216797,19.75694 q 3.249414,-0.0744 8.570019,-0.22325 -1.016992,5.71748 -2.592089,9.61182 -7.019727,0.66973 -18.553906,0.29766 5.246191,-22.57227 6.486425,-29.17032 5.519043,-0.40927 10.306348,-0.27285 z" />
+      <path
+         id="path23"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Heroes Legend Hollow';-inkscape-font-specification:'Heroes Legend Hollow';fill:#ffffff"
+         d="m 52.690683,278.85046 q 2.443262,0.34726 5.246192,1.00459 0.768945,-1.25264 2.654101,-4.26641 2.864941,-0.31006 7.205762,0.0248 l 0.5333,4.17959 q 2.455664,-0.4961 5.543848,-0.75655 -3.075781,-18.15703 -4.960937,-25.32558 z m 17.09043,-30.59658 q 3.199804,12.15429 6.697265,32.79179 -5.370215,0.45889 -10.0583,1.42627 l -0.607715,-4.7749 q -2.319239,-0.18604 -3.894336,0 -1.314649,2.096 -2.926953,4.68809 -4.266406,-0.97979 -10.058301,-1.82315 z m -3.621485,17.68574 q 1.091407,3.91914 1.165821,5.80429 -2.071192,0.18604 -5.258594,0.26045 1.736328,-2.77812 4.092773,-6.06474 z" />
+      <path
+         id="path25"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Heroes Legend Hollow';-inkscape-font-specification:'Heroes Legend Hollow';fill:#ffffff"
+         d="m 83.969398,251.66452 q -4.316016,21.33203 -5.853906,27.64482 2.418457,-0.14882 5.233789,-0.0372 l 2.802929,-14.77119 q 5.543848,7.05693 12.154297,16.9416 3.224613,-13.14649 6.101953,-27.35957 -2.41846,0.26045 -6.151562,0.38447 -0.930176,5.12217 -2.319239,12.03027 -6.052343,-8.79326 -11.968261,-14.8332 z m -1.351856,-4.56406 q 9.004102,9.19013 12.166699,13.7914 0.347266,-1.72392 1.599903,-8.58242 5.444626,-0.19843 10.814846,-0.78135 -3.48506,17.26407 -7.937503,35.37149 -9.376171,-14.02705 -11.831835,-17.16484 l -2.244824,11.84423 q -4.626075,-0.18603 -9.94668,0.13643 2.232422,-9.21494 7.379394,-34.61494 z" />
+      <path
+         id="path27"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.39999962px;font-family:'Heroes Legend';-inkscape-font-specification:'Heroes Legend';fill:#ffffff;stroke-width:0.26458332"
+         d="m 118.88199,263.1739 6.77168,-8.03672 q 1.37666,3.16259 3.67109,7.65224 l 6.82129,-14.75879 q 5.45703,0.0372 10.0583,0.58291 -8.35918,18.00821 -14.26269,31.66319 -4.45244,0.23564 -7.85068,-0.12403 l -1.94717,-9.5498 -5.55625,9.5374 q -3.65869,0.34727 -8.4584,0.14883 0.70693,-12.11709 1.26504,-23.91172 -0.95498,0.0124 -3.06338,0.31006 l 0.91777,-6.47402 q 7.76387,-3.01377 12.30313,-2.43086 -0.062,6.03994 -0.66973,15.39131 z" />
+      <path
+         id="path29"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.39999962px;font-family:'Heroes Legend';-inkscape-font-specification:'Heroes Legend';fill:#ffffff;stroke-width:0.26458332"
+         d="m 155.74797,250.98239 q 2.54248,9.66143 5.8291,29.05869 -4.2292,0.35967 -7.80108,1.09141 l -0.57051,-4.47725 q -3.32382,-0.26045 -5.54384,-0.0124 -1.59991,2.55488 -2.79053,4.47725 -3.53467,-0.81856 -7.65225,-1.41387 z m -3.63389,17.49971 q -0.97979,1.36426 -1.5999,2.35644 1.079,-0.0248 2.05879,-0.11162 -0.0248,-0.69453 -0.45889,-2.24482 z" />
+      <path
+         id="path31"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.39999962px;font-family:'Heroes Legend';-inkscape-font-specification:'Heroes Legend';fill:#ffffff;stroke-width:0.26458332"
+         d="m 172.26168,272.07878 q -1.47588,6.80888 -1.83554,8.50801 -5.39502,0.28525 -7.72666,-0.11163 0.73173,-3.79511 5.58105,-26.4914 5.55625,-1.50068 11.621,-0.97979 9.28935,1.11621 7.63984,9.15293 -1.24023,5.33301 -6.53603,7.55303 1.72392,0.81856 1.0914,4.14238 -0.71933,2.87735 3.88194,0.32246 l -1.48829,7.00733 q -12.00546,4.72529 -10.0583,-5.12217 0.70694,-4.03076 -2.17041,-3.98115 z m 2.59209,-11.67061 q -0.76894,2.70371 -1.32705,6.00274 5.55625,-1.52549 6.07715,-4.03076 0.34727,-1.81075 -1.32705,-2.05879 -1.0418,-0.38448 -3.42305,0.0868 z" />
+      <path
+         id="path33"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.39999962px;font-family:'Heroes Legend';-inkscape-font-specification:'Heroes Legend';fill:#ffffff;stroke-width:0.26458332"
+         d="m 189.74899,280.59919 q 0.95498,-3.49746 2.00918,-7.44141 2.18281,1.66192 7.20576,0.5333 2.6665,-0.81855 2.61689,-2.50527 0.0124,-1.37666 -2.74091,-0.75654 -4.00596,0.21084 -5.92832,-1.61231 -1.92237,-1.82314 -2.03399,-3.58428 -0.45889,-5.14697 3.01377,-9.09091 5.95313,-6.13916 14.94482,-3.34864 l -2.18281,7.18096 q -7.28017,-1.24023 -7.51582,1.90996 0.0248,1.51309 1.89756,1.37666 1.88516,-0.13642 4.39043,0.35967 2.51768,0.49609 3.47266,2.25723 1.20302,3.31142 0.31005,6.05234 -2.49287,6.8957 -10.604,8.86768 -5.86631,1.19062 -8.85527,-0.19844 z" />
+    </g>
   </g>
 </svg>
