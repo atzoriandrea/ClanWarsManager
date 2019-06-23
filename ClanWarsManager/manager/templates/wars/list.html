@@ -6,7 +6,7 @@
 {% block content %}
 {% if user.is_authenticated %}
 <h3>Wars</h3>
-<ul class="collection">
+<div class="collection">
     {% for war in wars %}
     <a class="collection-item" href={{war.get_absolute_url}}>
         {{war}}
@@ -17,7 +17,7 @@
         {% endif %}
     </a>
     {% endfor %}
-</ul>
+</div>
 {% else %}
 <p>You are not logged in</p>
 <a href="{% url 'user_login' %}">login</a> |

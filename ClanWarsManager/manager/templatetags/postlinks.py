@@ -20,14 +20,4 @@ def submit(action):
 
 @register.inclusion_tag("commons/tags/onClick.html")
 def submitOnClick(action):
-    return {"action": render_to_string("commons/tags/submit.js", submit(action)) }
-
-
-@register.inclusion_tag("commons/tags/submitParent.js")
-def submitParent():
-    return {}
-
-
-@register.inclusion_tag("commons/tags/onClick.html")
-def submitParentOnClick():
-    return {"action": render_to_string("commons/tags/submitParent.js", submitParent()) }
+    return {"action": render_to_string("commons/tags/submit.js", submit(action))}

@@ -7,50 +7,42 @@
 {% load postlinks %}
 {% hiddenform %}
 
+<h2>{{clan.name}}</h2>
+{% if user.is_authenticated and user.clan is None and clan.members.count < clan.maxMembers %}
+{% url 'clans_join' clan.id as joinUrl %}
+<a class="waves-effect waves-light btn-large" {% submitOnClick joinUrl %}>
+    Unisciti
+</a>
+</form>
+{% endif %}
+<h4>Membri:</h4>
+<ul class="collection">
+    {% for member in clan.members.all %}
+    <li class="collection-item">
+        {{member.username}}
+        {% if clan.clanMaster == member%}
+        <span class="chip">
+            Master
+        </span>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% if user.is_authenticated and user.clan is not None and user.clan.clanMaster == user %}
+{% url 'clans_fight' clan.pk as fightUrl %}
+<a class="waves-effect waves-light btn-large" {% submitOnClick fightUrl %}>
+    Sfida
+</a>
+{% endif %}
+{% if clan == user.clan %}
+{% url 'clans_leave' as leaveUrl %}
+<a class="waves-effect waves-light btn-large red" {% submitOnClick leaveUrl %}>
+    Abbandona
+</a>
+{% endif %}
 
-    <h2>{{clan.name}}</h2>
-    {% if user.is_authenticated and user.clan is None and clan.members.count < clan.maxMembers %}
-        <form method="POST" action="{% url 'clans_join' clan.id%}">
-                {% csrf_token %}
-                <p>
-                    <a class="waves-effect waves-light btn"  {% submitParentOnClick %} >
-                        Enter
-                    </a>
-                </p>
-        </form>
-    {% endif %}
-    <h4>Membri:</h4>
-    <ul class="collection">
-        {% for member in clan.members.all %}
-            <li class="collection-item">
-                {{member.username}}
-                {% if clan.clanMaster == member%}
-                    <span class="badge">
-                        Clan Master
-                    </span>
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
-    {% if user.is_authenticated and user.clan is not None and user.clan.clanMaster == user  %}
-        <form method="POST" action="{% url 'clans_fight' clan.pk%}">
-            {% csrf_token %}
-                <a class="waves-effect waves-light btn"  {% submitParentOnClick %}>
-                    Combatti
-                </a>
-        </form>
-    {%endif%}
-    {% if clan == user.clan %}
-        <form method="POST" action="{% url 'clans_leave' %}">
-            {% csrf_token %}
-                <a class="waves-effect waves-light btn"  {% submitParentOnClick %}>
-                    Abbandona
-                </a>
-        </form>
-    {% endif %}
-    
-    {% load toasts %}
-    {% toast_if request.GET.joined "Sei entrato a far parte del clan" %}
-    {% toast_if request.GET.leaved "Hai abbandonato il clan" %}
-    
+{% load toasts %}
+{% toast_if request.GET.joined "Sei entrato a far parte del clan" %}
+{% toast_if request.GET.leaved "Hai abbandonato il clan" %}
+
 {% endblock %}
