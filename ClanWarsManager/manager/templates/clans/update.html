@@ -8,8 +8,8 @@
 
 {% load materializecss %}
 
-<section>
-<h3>Modifica il tuo clan</h3>
+<div class ="section">
+<h3>Il mio clan</h3>
 <form method="POST">
     {% csrf_token %}
     {{form|materializecss}}
@@ -22,9 +22,9 @@
     <i class="material-icons left">delete</i>
     Elimina clan
 </a>
-</section>
+</div>
 
-<section>
+<div class="section">
 <h4>Membri</h4>
 <ul class="collection">
     {% for member in clan.members.all %}
@@ -32,9 +32,7 @@
         <div>
             {{member.username}}
             {% if clan.clanMaster == member%}
-            <span class="chip">
-                Master
-            </span>
+            <span class="new badge" data-badge-caption="master"></span>
             {% endif %}
             {% if clan.clanMaster != member %}
             {% url 'clans_kick' member.username as kickUrl %}
@@ -46,7 +44,7 @@
     </li>
     {% endfor %}
 </ul>
-</section>
+</div>
 
 {% load toasts %}
 {% toast_if request.GET.kicked "Utente rimosso" %}

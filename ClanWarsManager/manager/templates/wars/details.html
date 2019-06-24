@@ -7,46 +7,100 @@
 {% load postlinks %}
 {% hiddenform %}
 
-<h2>Guerra</h2>
-<h4>{{war.date}}</h4>
-<h5>Nemico: {{war.enemyClanName}}</h5>
-{% if war.allyClan.clanMaster == user %}
-{% url 'wars_delete' war.pk as deleteUrl %}
-<a class="waves-effect waves-light btn-large red" {% submitOnClick deleteUrl %}>
-    <i class="material-icons left">delete</i>
-    Elimina Guerra
-</a>
-{% endif %}
-<ul class="collection with-header">
-    <li class="collection-header">
-        <h5>Nome | Distruzione</h5>
-    </li>
-    {% for battle in war.battles.all %}
-    <li class="collection-item">
-        <div>{{battle.ally}} vs {{battle.enemy.username}} | {{battle.allyDestruction}}% | {{battle.enemyDestruction}}% |
-            {% if battle.allyVictory %}
-            <div class="chip">
-                Vinta
-            </div>
-            {% endif %}
-            {% if battle.ally == user or battle.ally.clan.clanMaster == user %}
-            {% url 'battles_update' battle.pk as updateBattleUrl %}
-            {% url 'battles_delete' battle.pk as deleteBattleUrl %}
-                <a class="secondary-content waves-effect waves-circle red-text tooltipped" data-position="bottom" data-tooltip="Elimina battaglia" {% submitOnClick deleteBattleUrl %}>
+<h3>Guerra</h3>
+<div class="row">
+    <div class="col">
+        <h6>
+            <i class="material-icons left">calendar_today</i>
+            {{war.date}}
+        </h6>
+        <h6>
+            <i class="material-icons left">people</i>
+            {{war.enemyClanName}}
+        </h6>
+    </div>
+    {% if war.allyClan.clanMaster == user %}
+    {% url 'wars_delete' war.pk as deleteUrl %}
+    <a class="waves-effect waves-light btn-large red right" {% submitOnClick deleteUrl %}>
+        <i class="material-icons left">delete</i>
+        Elimina Guerra
+    </a>
+    {% endif %}
+</div>
+
+<h4>Battaglie</h4>
+{% if war.battles.count > 0 %}
+<table class="striped centered">
+    <thead>
+        <tr>
+            <th>
+                Alleato
+            </th>
+            <th>
+                Nemico
+            </th>
+            <th>
+                Danni inflitti
+            </th>
+            <th>
+                Danni subiti
+            </th>
+            <th>
+
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for battle in war.battles.all %}
+        <tr>
+            <td>
+                {{battle.ally.username}}
+            </td>
+            <td>
+                {{battle.enemy.username}}
+            </td>
+            <td>
+                {{battle.allyDestruction}}%
+            </td>
+            <td>
+                {{battle.enemyDestruction}}%
+            </td>
+            <td>
+                {% if battle.allyVictory %}
+                <span class="new badge" data-badge-caption="vinta"></span>
+                {% endif %}
+            </td>
+            <td>
+                {% if battle.ally.username == user.username or battle.ally.clan.clanMaster == user %}
+                {% url 'battles_update' battle.pk as updateBattleUrl %}
+                {% url 'battles_delete' battle.pk as deleteBattleUrl %}
+                <a class="waves-effect waves-circle red-text tooltipped right" data-position="bottom"
+                    data-tooltip="Elimina battaglia" {% submitOnClick deleteBattleUrl %}>
                     <i class="material-icons">delete</i>
                 </a>
-                <a class="secondary-content waves-effect waves-circle tooltipped" data-position="bottom" data-tooltip="Modifica battaglia" {% submitOnClick updateBattleUrl %}>
+                <a class="waves-effect waves-circle tooltipped right" data-position="bottom" data-tooltip="Modifica battaglia"
+                    {% submitOnClick updateBattleUrl %}>
                     <i class="material-icons">edit</i>
                 </a>
-            {% endif %}
-        </div>
-    </li>
-    {% endfor %}
-</ul>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<blockquote>
+    Nessuna battaglia
+</blockquote>
+{% endif %}
+
 {% if canAddBattle %}
-    {% url 'wars_addbattle' war.pk as addBattleUrl %}
-    <a class="btn-floating btn-large waves-effect waves-light right tooltipped" data-position="bottom" data-tooltip="Aggiungi battaglia" {% submitOnClick addBattleUrl %}><i
-            class="material-icons">add</i></a>
+{% url 'wars_addbattle' war.pk as addBattleUrl %}
+<a class="btn-floating btn-large waves-effect waves-light right tooltipped" data-position="bottom" style="margin-top:1.5em"
+    data-tooltip="Aggiungi battaglia" {% submitOnClick addBattleUrl %}><i class="material-icons">add</i></a>
 {% endif %}
 
 {% load toasts %}

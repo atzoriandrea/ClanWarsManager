@@ -36,5 +36,6 @@ main {
   flex: 1 0 auto;
 }
 
-
-
+.smalltext {
+  font-size: 0.85em;
+}

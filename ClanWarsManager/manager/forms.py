@@ -23,13 +23,15 @@ class ClanForm(forms.ModelForm):
         model = Clan
         fields = ['name', 'maxMembers']
 
-
 class BattleForm(forms.ModelForm):
+
+    _USER_LABEL_FROM_INSTANCE = lambda u : u.username
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['enemy'].queryset = self.instance.war.enemies().all()
         self.fields['enemy'].empty_label = None
+        self.fields['enemy'].label_from_instance = BattleForm._USER_LABEL_FROM_INSTANCE
 
     class Meta:
         model = Battle
@@ -42,6 +44,7 @@ class BattleFormMaster(BattleForm):
         super().__init__(*args, **kwargs)
         self.fields['ally'].queryset = self.instance.war.allies().all()
         self.fields['ally'].empty_label = None
+        self.fields['ally'].label_from_instance = BattleFormMaster._USER_LABEL_FROM_INSTANCE
 
     class Meta:
         model = Battle

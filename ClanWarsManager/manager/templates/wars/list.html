@@ -5,26 +5,32 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<h3>Wars</h3>
+<h3>Le mie guerre</h3>
+{% if wars|length > 0 %}
 <div class="collection">
     {% for war in wars %}
     <a class="collection-item" href={{war.get_absolute_url}}>
-        {{war}}
+        {{ war.enemyClanName }}
+        <span class="smalltext">{{ war.date }}</span>
         {% if war.won %}
-        <div class="chip">
-            Vinta
-        </div>
+        <span class="new badge" data-badge-caption="vinta"></span>
         {% endif %}
     </a>
     {% endfor %}
 </div>
+{% else %}
+<blockquote>Nessuna guerra</blockquote>
+{% endif %}
 {% else %}
 <p>You are not logged in</p>
 <a href="{% url 'user_login' %}">login</a> |
 <a href="{% url 'user_signup' %}">signup</a> |
 {% endif %}
 
-<a class = "btn waves-effect" href="{% url 'clans_list' %}">Sfida un altro clan!</a>
+<a class="btn-large waves-effect waves-light" href="{% url 'clans_list' %}">
+    <i class="material-icons left">search</i>
+    Sfida un altro clan
+</a>
 
 
 {% load toasts %}

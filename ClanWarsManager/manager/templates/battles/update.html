@@ -7,27 +7,25 @@
 {% load postlinks %}
 {% hiddenform %}
 
-
 {% load materializecss %}
 
-<h2>Battaglia</h2>
 
-<nav>
-    <div class="nav-wrapper">
-        <div class="col s12">
-            <a href="{{battle.war.get_absolute_url}}" class="breadcrumb">Guerra</a>
-            <a href="." class="breadcrumb">Battaglia</a>
-        </div>
-    </div>
-</nav>
+<h3> Battaglia</h3>
+<a class="waves-effect waves-light btn" href="{{battle.war.get_absolute_url}}">
+    <i class="material-icons left">arrow_back</i>
+    Torna alla guerra
+</a>
 
-<form method="POST">
-    {% csrf_token %}
-    {{form|materializecss}}
-    <button class="btn-floating btn-large waves-effect waves-light right tooltipped" data-position="bottom" data-tooltip="Salva modifiche" type="submit">
-        <i class="material-icons">save</i>
-    </button>
-</form>
+<div class="section">
+    <form method="POST">
+        {% csrf_token %}
+        {{form|materializecss}}
+        <button class="btn-floating btn-large waves-effect waves-light right tooltipped" data-position="bottom"
+            data-tooltip="Salva modifiche" type="submit">
+            <i class="material-icons">save</i>
+        </button>
+    </form>
+</div>
 
 {% url 'battles_delete' battle.pk as deleteBattleUrl %}
 <a class="waves-effect waves-light btn-large red" {% submitOnClick deleteBattleUrl %}>

@@ -1,19 +1,21 @@
 <!-- templates/registration/login.html -->
 {% extends 'base.html' %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Accedi{% endblock %}
 
 {% block content %}
 
 {% load materializecss %}
 
-<h2>Login</h2>
-<form method="POST">
-  {% csrf_token %}
-  {{ form|materializecss }}
-  <button class="btn btn-large waves-effect waves-light" type="submit">
-    Login
-  </button>
-</form>
+<h3>Accedi</h3>
+<div class="section">
+  <form method="POST">
+    {% csrf_token %}
+    {{ form|materializecss }}
+    <button class="btn btn-large waves-effect waves-light" type="submit">
+      Login
+    </button>
+  </form>
+</div>
 
 {% endblock %}

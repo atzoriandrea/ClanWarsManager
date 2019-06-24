@@ -18,7 +18,9 @@
   </nav>
   <div class="collection">
     {% for clan in clans %}
-      <a class="collection-item waves-effect" href="{{clan.get_absolute_url}}">{{clan.name}}</a>
+      <a class="collection-item waves-effect" href="{{clan.get_absolute_url}}">
+        {{clan.name}}
+      </a>
     {% endfor %}
   </div>
   

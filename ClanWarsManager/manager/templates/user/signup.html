@@ -7,12 +7,14 @@
 
 {% load materializecss %}
 
-<h2>Registrati</h2>
-<form method="POST">
-  {% csrf_token %}
-  {{ form|materializecss }}
-  <button class="waves-effect waves-light btn" type="submit">
-    Registrati
-  </button>
-</form>
+<h3>Registrati</h3>
+<div class="section">
+  <form method="POST">
+    {% csrf_token %}
+    {{ form|materializecss }}
+    <button class="waves-effect waves-light btn-large" type="submit">
+      Registrati
+    </button>
+  </form>
+</div>
 {% endblock %}

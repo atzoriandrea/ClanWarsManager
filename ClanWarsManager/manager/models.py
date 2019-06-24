@@ -15,9 +15,9 @@ class User(AbstractUser):
 
 class Clan(models.Model):
 
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, verbose_name="Nome")
     clanMaster = models.OneToOneField(User, on_delete=models.CASCADE, related_name="+", null=False, blank=False)
-    maxMembers = models.PositiveSmallIntegerField(default=20, validators=[MinValueValidator(1), MaxValueValidator(50)])
+    maxMembers = models.PositiveSmallIntegerField(default=20, validators=[MinValueValidator(1), MaxValueValidator(50)], verbose_name="Numero massimo di membri")
 
     def get_absolute_url(self):
         return reverse("clans_details", kwargs={'pk': self.pk})
@@ -37,9 +37,11 @@ class War(models.Model):
 
     def won(self):
         battles = self.battles.all()
-        #TODO: Fix
-        #return battles.aggregate(sum=models.Sum('allyDestruction'))["sum"] > battles.aggregate(sum=models.Sum('enemyDestruction'))["sum"]
-        return True
+        allyDestruction = battles.aggregate(sum=models.Sum('allyDestruction'))["sum"] 
+        enemyDestruction = battles.aggregate(sum=models.Sum('enemyDestruction'))["sum"]
+        if allyDestruction is None or enemyDestruction is None:
+            return None
+        return allyDestruction > enemyDestruction
 
     def getAlly(self, user):
         try:
@@ -74,11 +76,11 @@ class UserSnapshot(models.Model):
 
 class Battle(models.Model):
 
-    ally = models.ForeignKey(UserSnapshot, on_delete=models.CASCADE, related_name="+", null=False, blank=False)
-    enemy = models.ForeignKey(UserSnapshot, on_delete=models.CASCADE, related_name="+", null=False, blank=False)
-    allyDestruction = models.SmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
-    enemyDestruction = models.SmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
-    allyVictory = models.BooleanField(default=False)
+    ally = models.ForeignKey(UserSnapshot, on_delete=models.CASCADE, related_name="+", null=False, blank=False, verbose_name="Alleato")
+    enemy = models.ForeignKey(UserSnapshot, on_delete=models.CASCADE, related_name="+", null=False, blank=False, verbose_name="Nemico")
+    allyDestruction = models.SmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0, verbose_name="Danni inflitti")
+    enemyDestruction = models.SmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0, verbose_name="Danni subiti")
+    allyVictory = models.BooleanField(default=False, verbose_name="Vittoria")
     war = models.ForeignKey(War, on_delete=models.CASCADE, related_name="battles", null=False, blank=False)
 
     def get_absolute_url(self):
