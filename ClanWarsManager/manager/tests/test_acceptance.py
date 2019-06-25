@@ -337,7 +337,35 @@ class TestAcceptance(TestCase):
         response = self.client.post(clanKickUrl)
         self.assertEqual(response.status_code, 302)
 
-
+        '''
+        L’utente autenticato nel sistema e capo del suo clan, deve poter creare una guerra con un altro clan già esistente.
+        Deve, quindi, poter registrare battaglie, decidendo per ognuna
+        il membro alleato e quello nemico da far sfidare, le loro percentuali di distruzione e l’esito della singola battaglia.
+        '''
+    def test_acceptance_war_create_as_cm(self):
+        warCreateUrl = reverse('clans_fight', kwargs={'pk': self.c2.pk})
+        login = self.client.login(username="Test1", password="TestAcceptance1")
+        self.assertTrue(login)
+        wars = War.objects.filter(allyClan=self.u1.clan).count()
+        response = self.client.post(warCreateUrl)
+        self.assertEqual(response.status_code, 302)
+        warsAfterCreation = War.objects.filter(allyClan=self.u1.clan).count()
+        war = War.objects.filter(allyClan=self.u1.clan).first()
+        self.assertIsNotNone(war)
+        self.assertEqual(wars+1, warsAfterCreation)
+        battleCreateUrl = reverse('wars_addbattle', kwargs={'pk': war.pk})
+        response = self.client.post(battleCreateUrl)
+        self.assertEqual(response.status_code, 302)
+        battle = Battle.objects.filter(war=war).first()
+        battle.ally = UserSnapshot.objects.create(username=self.c1.clanMaster.username, isAlly=True, war=war)
+        battle.enemy = UserSnapshot.objects.create(username=self.c2.clanMaster.username, isAlly=False, war=war)
+        battle.allyDestruction = 50
+        battle.enemyDestruction = 80
+        self.assertEqual(battle.enemy.username, self.c2.clanMaster.username)
+        self.assertEqual(battle.allyDestruction, 50)
+        self.assertEqual(battle.enemyDestruction, 80)
+        battle.allyVictory = False
+        self.assertFalse(battle.allyVictory)
 
 
 
