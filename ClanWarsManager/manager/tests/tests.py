@@ -103,7 +103,7 @@ class BattleTestCase(TestCase):
         cm = User.objects.get(username="ClanMaster")
         cm2 = User.objects.get(username="ClanMaster2")
         war = War.objects.get(allyClan=Clan.objects.get(name="TestClan"), enemyClanName="TestClan2")
-        allysnap = UserSnapshot.objects.create(username=cm.username, war=war,isAlly=False)
+        allysnap = UserSnapshot.objects.create(username=cm.username, war=war, isAlly=False)
         self.assertIsNotNone(allysnap)
         enemysnap = UserSnapshot.objects.create(username=cm2.username, war=war, isAlly=False)
         self.assertIsNotNone(enemysnap)
