@@ -32,7 +32,7 @@ class TestWarViews(TestCase):
 
     #BattleCreateView Tests
     def test_battle_create_valid_data(self):
-        battleCreateUrl = reverse("wars_addbattle", args=[1])
+        battleCreateUrl = reverse("wars_addbattle", kwargs={"pk": 1})
         login = self.client.login(username="Test", password="Views") 
         self.assertTrue(login)
         response = self.client.post(battleCreateUrl)
@@ -58,21 +58,21 @@ class TestWarViews(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_battle_create_invalid_data(self):
-        battleCreateUrl = reverse("wars_addbattle", args=[100])
+        battleCreateUrl = reverse("wars_addbattle", kwargs={"pk": 100})
         login = self.client.login(username="Test", password="Views") 
         self.assertTrue(login)
         response = self.client.post(battleCreateUrl)
         self.assertEqual(response.status_code, 404)
         self.client.logout()
 
-        battleCreateUrl = reverse("wars_addbattle", args=[2])
+        battleCreateUrl = reverse("wars_addbattle", kwargs={"pk": 2})
         login = self.client.login(username="Test", password="Views") 
         self.assertTrue(login)
         response = self.client.post(battleCreateUrl)
         self.assertEqual(response.status_code, 403)
         self.client.logout()
         
-        battleCreateUrl = reverse("wars_addbattle", args=[1])
+        battleCreateUrl = reverse("wars_addbattle", kwargs={"pk": 1})
         login = self.client.login(username="Test4", password="Views4") 
         self.assertTrue(login)
         response = self.client.post(battleCreateUrl)
@@ -93,7 +93,6 @@ class TestWarViews(TestCase):
         }
         response = self.client.post(battleUpdateUrl, data=data)
         self.assertEqual(response.status_code, 302)
-        self.assertTemplateUsed("battles/upsate.html")
         battle.refresh_from_db()
         self.assertEqual(battle.allyDestruction, 100)
         self.assertEqual(battle.enemyDestruction, 50)
@@ -121,12 +120,12 @@ class TestWarViews(TestCase):
     
     #BattleDeleteView Tests
     def test_battle_delete_valid_data(self):
-        battleDeleteUrl = reverse("battles_delete", args=[1])
+        battleDeleteUrl = reverse("battles_delete", kwargs={"pk": 1})
         login = self.client.login(username="Test", password="Views") 
         self.assertTrue(login)
         response = self.client.post(battleDeleteUrl)
         self.assertEqual(response.status_code, 302)
-        response = self.client.post(reverse("battles_update", args=[1]))
+        response = self.client.post(reverse("battles_update", kwargs={"pk": 1}))
         self.assertEqual(response.status_code, 404)
         self.client.logout()
         
@@ -136,21 +135,21 @@ class TestWarViews(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_battle_delete_invalid_data(self):
-        battleDeleteUrl = reverse("battles_delete", args=[2])
+        battleDeleteUrl = reverse("battles_delete", kwargs={"pk": 2})
         login = self.client.login(username="Test", password="Views") 
         self.assertTrue(login)
         response = self.client.post(battleDeleteUrl)
         self.assertEqual(response.status_code, 403)
         self.client.logout()
 
-        battleDeleteUrl = reverse("battles_delete", args=[1])
+        battleDeleteUrl = reverse("battles_delete", kwargs={"pk": 1})
         login = self.client.login(username="Test4", password="Views4") 
         self.assertTrue(login)
         response = self.client.post(battleDeleteUrl)
         self.assertEqual(response.status_code, 403)
         self.client.logout()
 
-        battleDeleteUrl = reverse("battles_delete", args=[100])
+        battleDeleteUrl = reverse("battles_delete", kwargs={"pk": 100})
         login = self.client.login(username="Test", password="Views") 
         self.assertTrue(login)
         response = self.client.post(battleDeleteUrl)

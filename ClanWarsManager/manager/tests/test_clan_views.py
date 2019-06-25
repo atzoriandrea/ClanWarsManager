@@ -136,7 +136,7 @@ class TestClanViews(TestCase):
         self.assertEqual(updateClanMembers, clanMembers)
         self.client.logout()
 
-    #ClanLeaveiew Tests
+    #ClanLeaveView Tests
     def test_clan_leave_as_member(self):
         clanLeaveUrl = reverse("clans_leave")
         login = self.client.login(username="Test4", password="Views4")
