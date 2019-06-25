@@ -125,7 +125,7 @@ class TestWarViews(TestCase):
         self.assertTrue(login)
         response = self.client.post(battleDeleteUrl)
         self.assertEqual(response.status_code, 302)
-        response = self.client.post(reverse("battles_update", kwargs={"pk": 1})
+        response = self.client.post(reverse("battles_update", kwargs={"pk": 1}))
         self.assertEqual(response.status_code, 404)
         self.client.logout()
         
