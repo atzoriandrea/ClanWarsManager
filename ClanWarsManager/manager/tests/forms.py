@@ -18,6 +18,7 @@ class TestsForms(TestCase):
         eus = UserSnapshot.objects.create(username="Test2", isAlly=False, war=war)
         self.battle = Battle.objects.create(ally=aus, enemy=eus, war=war)
 
+    #CustomUserCreationForm tests
     def test_custom_user_creation_valid_form(self):
         form = CustomUserCreationForm(data={
             "username": "TestT",
@@ -31,6 +32,8 @@ class TestsForms(TestCase):
         self.assertFalse(form.is_valid())
         self.assertEqual(len(form.errors), 3)
     
+    
+    #CustomUserCreationForm tests
     def test_custom_user_change_valid_form(self):
         form = CustomUserChangeForm(data={
             "username": "TestT",
@@ -48,7 +51,8 @@ class TestsForms(TestCase):
         self.assertFalse(form.is_valid())
         self.assertEqual(len(form.errors), 1)
 
-
+    
+    #ClanForm tests
     def test_clan_valid_form(self):
         form = ClanForm(data={
             "name": "TestClanT",
@@ -67,6 +71,7 @@ class TestsForms(TestCase):
         self.assertFalse(form.is_valid())
         self.assertEqual(len(form.errors), 2)
 
+    #BattleForm tests
     def test_battle_valid_form(self):
         data = {
             "enemy": 2,
@@ -97,7 +102,7 @@ class TestsForms(TestCase):
         form = BattleForm(data={}, instance=self.battle)
         self.assertFalse(form.is_valid())
 
-
+    #BattleFormMaster tests
     def test_battle_valid_form_master(self):
         data = {
             "ally": 1,
