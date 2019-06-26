@@ -56,10 +56,10 @@ class BattleUpdateView(UpdateView):
     model = Battle
 
     def get_form_class(self):
-        if self.request.user != self.object.war.allyClan.clanMaster:
-            return BattleForm
-        else:
+        if self.request.user == self.object.war.allyClan.clanMaster:
             return BattleFormMaster
+        else:
+            return BattleForm
 
     def get_object(self):
         battle = super().get_object()

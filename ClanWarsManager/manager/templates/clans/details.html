@@ -7,7 +7,11 @@
 {% load postlinks %}
 {% hiddenform %}
 
+{% if clan == user.clan %}
 <h3>Il mio clan</h3>
+{% else %}
+<h3>Clan</h3>
+{% endif %}
 <h5>
     <i class="material-icons left">people</i>    
     {{clan.name}}

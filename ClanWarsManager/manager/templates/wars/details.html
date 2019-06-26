@@ -75,14 +75,13 @@
             </td>
             <td>
                 {% if battle.ally.username == user.username or battle.ally.clan.clanMaster == user %}
-                {% url 'battles_update' battle.pk as updateBattleUrl %}
                 {% url 'battles_delete' battle.pk as deleteBattleUrl %}
                 <a class="waves-effect waves-circle red-text tooltipped right" data-position="bottom"
                     data-tooltip="Elimina battaglia" {% submitOnClick deleteBattleUrl %}>
                     <i class="material-icons">delete</i>
                 </a>
-                <a class="waves-effect waves-circle tooltipped right" data-position="bottom" data-tooltip="Modifica battaglia"
-                    {% submitOnClick updateBattleUrl %}>
+                <a class="waves-effect waves-circle tooltipped right" data-position="bottom"
+                    data-tooltip="Modifica battaglia" href="{{battle.get_absolute_url}}">
                     <i class="material-icons">edit</i>
                 </a>
                 {% endif %}
@@ -99,8 +98,9 @@
 
 {% if canAddBattle %}
 {% url 'wars_addbattle' war.pk as addBattleUrl %}
-<a class="btn-floating btn-large waves-effect waves-light right tooltipped" data-position="bottom" style="margin-top:1.5em"
-    data-tooltip="Aggiungi battaglia" {% submitOnClick addBattleUrl %}><i class="material-icons">add</i></a>
+<a class="btn-floating btn-large waves-effect waves-light right tooltipped" data-position="bottom"
+    style="margin-top:1.5em" data-tooltip="Aggiungi battaglia" {% submitOnClick addBattleUrl %}><i
+        class="material-icons">add</i></a>
 {% endif %}
 
 {% load toasts %}

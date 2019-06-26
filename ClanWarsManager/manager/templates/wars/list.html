@@ -4,7 +4,6 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
 <h3>Le mie guerre</h3>
 {% if wars|length > 0 %}
 <div class="collection">
@@ -21,16 +20,13 @@
 {% else %}
 <blockquote>Nessuna guerra</blockquote>
 {% endif %}
-{% else %}
-<p>You are not logged in</p>
-<a href="{% url 'user_login' %}">login</a> |
-<a href="{% url 'user_signup' %}">signup</a> |
-{% endif %}
 
+{% if user.clan.clanMaster == user %}
 <a class="btn-large waves-effect waves-light" href="{% url 'clans_list' %}">
     <i class="material-icons left">search</i>
     Sfida un altro clan
 </a>
+{% endif %}
 
 
 {% load toasts %}

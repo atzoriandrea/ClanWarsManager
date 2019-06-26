@@ -78,8 +78,8 @@ class Battle(models.Model):
 
     ally = models.ForeignKey(UserSnapshot, on_delete=models.CASCADE, related_name="+", null=False, blank=False, verbose_name="Alleato")
     enemy = models.ForeignKey(UserSnapshot, on_delete=models.CASCADE, related_name="+", null=False, blank=False, verbose_name="Nemico")
-    allyDestruction = models.SmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0, verbose_name="Danni inflitti")
-    enemyDestruction = models.SmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0, verbose_name="Danni subiti")
+    allyDestruction = models.PositiveSmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0, verbose_name="Danni inflitti")
+    enemyDestruction = models.PositiveSmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0, verbose_name="Danni subiti")
     allyVictory = models.BooleanField(default=False, verbose_name="Vittoria")
     war = models.ForeignKey(War, on_delete=models.CASCADE, related_name="battles", null=False, blank=False)
 
