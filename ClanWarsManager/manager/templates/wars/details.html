@@ -74,7 +74,7 @@
                 {% endif %}
             </td>
             <td>
-                {% if battle.ally.username == user.username or battle.ally.clan.clanMaster == user %}
+                {% if battle.ally.username == user.username or battle.war.allyClan.clanMaster == user %}
                 {% url 'battles_delete' battle.pk as deleteBattleUrl %}
                 <a class="waves-effect waves-circle red-text tooltipped right" data-position="bottom"
                     data-tooltip="Elimina battaglia" {% submitOnClick deleteBattleUrl %}>

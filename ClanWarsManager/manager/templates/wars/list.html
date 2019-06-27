@@ -21,6 +21,8 @@
 <blockquote>Nessuna guerra</blockquote>
 {% endif %}
 
+{% include "commons/pagination.html" %}
+
 {% if user.clan.clanMaster == user %}
 <a class="btn-large waves-effect waves-light" href="{% url 'clans_list' %}">
     <i class="material-icons left">search</i>

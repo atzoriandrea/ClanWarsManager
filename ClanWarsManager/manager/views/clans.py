@@ -22,8 +22,11 @@ class ClanListView(ListView):
     def get_queryset(self):
         query = self.request.GET.get("q")
         if query is not None:
-            return Clan.objects.filter(name__icontains=query)
-        return Clan.objects.all()
+            queryset = Clan.objects.filter(name__icontains=query)
+        else:
+            queryset = Clan.objects.all()
+        queryset = queryset.order_by('name')
+        return queryset
 
 
 class ClanDeleteView(DeleteView):

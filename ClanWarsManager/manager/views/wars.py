@@ -22,7 +22,7 @@ class WarListView(ListView):
     def get_queryset(self):
         if self.request.user.clan is None:
             raise PermissionDenied()
-        return self.request.user.clan.wars.all()
+        return self.request.user.clan.wars.all().order_by("-date", "enemyClanName")
 
 
 class WarCreateView(View):
